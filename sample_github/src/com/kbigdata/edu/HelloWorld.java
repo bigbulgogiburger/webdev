@@ -13,8 +13,7 @@ import javax.servlet.http.HttpServletResponse;
  * Servlet implementation class HelloWorld
  */
 
-//요청 url
-@WebServlet("/hw")
+
 public class HelloWorld extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 

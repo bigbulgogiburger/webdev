@@ -9,4 +9,15 @@
     <welcome-file>default.htm</welcome-file>
     <welcome-file>default.jsp</welcome-file>
   </welcome-file-list>
+  <!-- 서블릿 등록 -->
+  <!-- 아래의 명령을 실행하면 was가 서블릿 컨테이너에 등록한다. Helloworld helloWorld = new Helloworld() -->
+  <servlet>
+  	<servlet-name>helloWorld</servlet-name>
+  	<servlet-class>com.kbigdata.edu.HelloWorld</servlet-class>
+  </servlet>
+  <!-- URL mapping을한다. uri-pattern=>key servlet-name=>value -->
+  <servlet-mapping>
+  <servlet-name>helloWorld</servlet-name>
+  <url-pattern>/hw1</url-pattern>
+  </servlet-mapping>
 </web-app>
