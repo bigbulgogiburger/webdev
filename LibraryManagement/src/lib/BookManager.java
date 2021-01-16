@@ -1,13 +1,33 @@
 package lib;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Scanner;
 	
 public class BookManager {
 	private static int book_id= 10000000;
 	private static Scanner scanner = new Scanner(System.in);
-//	도서목록을 저장하고 있는 어레이리스트
-	private static ArrayList<Book> bookAl = new ArrayList<Book>();
+	private static String filepath = "./";
+	private static String filename = "book.txt";
+//	도서목록을 저장하고 있는 해쉬맵
+	private static HashMap<Integer, Book> bookHash = new HashMap<Integer, Book>();
+//	도서목록을 저장할것 같은 어레이리스트! 내일부터 합시다....
+	private static ArrayList<Book> bookAl = new ArrayList<Book>(); 
+
+	public static void updateBook() {
+		try {
+			bookAl = (ArrayList<Book>) BookFileManager.readFile(new File(filepath,filename));
+			for(Book x : bookAl) {
+				bookHash.put(Integer.parseInt(x.getBook_id()),x);
+			}
+			
+		}catch(IOException e) {
+			e.printStackTrace();
+		}
+	}
+
 //	도서추가
 	public static void addBook(Book book) {
 		System.out.println("책 제목을 입력하세요");
@@ -27,6 +47,7 @@ public class BookManager {
 			System.out.println("대여 여부 : " +x.isBorrow());
 		}
 	}
+	//여기 다시 하기
 //	저자나 제목으로 검색
 	public static void searchBook(int number) {
 		
@@ -80,7 +101,7 @@ public class BookManager {
 		
 	
 	
-	
+	//여기 다시 하기
 	public static void borrowBook(Member member) {
 		ArrayList<Book> tempArray =new ArrayList<Book>();
 		System.out.println("책 제목을 입력해 주세요.");
@@ -114,6 +135,8 @@ public class BookManager {
 				String borrownumber= scanner.nextLine();
 				if(borrownumber=="1") {
 					tempArray.get(0).setBorrow(true);
+					member.getCurrentBook().add(Integer.parseInt(tempArray.get(0).getBook_id()));
+					
 				}else {
 					return;
 				}
@@ -121,8 +144,17 @@ public class BookManager {
 			
 		}
 	}
-	public static void returnBook() {
-		
+	//여기 다시 하기
+	public static void returnBook(Member member) {
+		if(member.getCurrentBook().size()==0) {
+			System.out.println("현재 빌리신 책이 없습니다.");
+		}
+		System.out.println("총 "+member.getCurrentBook().size()+"권의 책을 빌리셨습니다.");
+		for(Book x : member.getCurrentBook()) {
+			System.out.println("책 제목  : " +x.getTitle());
+			System.out.println("저자  : " +x.getAuthor());
+			System.out.println("도서 ID :"+x.getBook_id());
+		}
 	}
 	
 	public static void deleteBook() {

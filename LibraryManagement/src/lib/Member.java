@@ -1,10 +1,16 @@
 package lib;
 
+import java.util.ArrayList;
+
 public class Member {
 	private String name;
 	private String phoneNumber;
 	private String memberId;
-	private Book[] book;
+	private ArrayList<Integer> currentBook= new ArrayList<Integer>();
+	
+	public Member() {
+		
+	}
 	
 	public Member(String name, String phoneNumber, String memberId) {
 		this.name=name;
@@ -30,11 +36,9 @@ public class Member {
 	public void setMemberId(String memberId) {
 		this.memberId = memberId;
 	}
-	public Book[] getBook() {
-		return book;
-	}
-	public void setBook(Book[] book) {
-		this.book = book;
+
+	public ArrayList<Integer> getCurrentBook() {
+		return currentBook;
 	}
 
 }

@@ -6,6 +6,10 @@ public class Book {
 	private String author;
 	private boolean borrow=false;
 	
+	public Book() {
+		
+	}
+	
 	public Book(String title, String book_id, String author, boolean borrow) {
 		this.title = title;
 		this.book_id=book_id;
