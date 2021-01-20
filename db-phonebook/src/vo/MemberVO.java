@@ -63,7 +63,7 @@ public class MemberVO {
 	}
 	@Override
 	public String toString() {
-		return "[name=" + name + ", phoneNumber=" + phoneNumber + ", address=" + address + ", group=" + group
+		return "[이름 = " + name + ", 전화번호 = " + phoneNumber + ", 주소 = " + address + ", 그룹 = " + group
 				+ "]";
 	}
 	
