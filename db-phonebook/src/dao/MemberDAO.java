@@ -13,7 +13,7 @@ import vo.MemberVO;
  * @작성일 : 		2021. 1. 21.
  * @filename : 	MemberDAO.java
  * @package : 	dao
- * @description :Oracle을 직접적으로 접속하여 데이터를 다루는 클래스
+ * @description :Oracle을 직접적으로 접속(connection,close)하여 데이터를 다루는 클래스 
  */
 public class MemberDAO {
 //	1. 전체 회원 목록
@@ -173,9 +173,9 @@ public class MemberDAO {
 		
 		return rowcnt;
 	}
-//  4. 회원 수정
 
-//	5. 회원 삭제
+
+//	4. 회원 삭제 메소드
 	public int deleteMember(MemberVO member) {
 		
 		Connection con			= AccessManager.getConnection();

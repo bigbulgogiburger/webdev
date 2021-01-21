@@ -51,7 +51,7 @@ public class MemberVO {
 	public void setGroup(String group) {
 	this.group = group;
 	}
-	
+//	group의 번호(sql group_info table의 group_number)를 리턴하는 메소드
 	public int getGroupNumber() {
 		if(group.equals("가족")) {
 			return 1;
@@ -63,7 +63,7 @@ public class MemberVO {
 	}
 	@Override
 	public String toString() {
-		return "[이름 = " + name + ", 전화번호 = " + phoneNumber + ", 주소 = " + address + ", 그룹 = " + group
+		return "[이름  : " + name + ", 전화번호  : " + phoneNumber + ", 주소  : " + address + ", 그룹 : " + group
 				+ "]";
 	}
 	
