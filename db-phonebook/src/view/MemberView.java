@@ -70,7 +70,6 @@ public class MemberView {
 	
 
 	public static MemberVO printInsertMember() {
-		scanner.nextLine();
 		// 메소드의 첫 출력문
 		System.out.println("등록할 회원의 정보를 입력하세요.");
 		System.out.println("이름 :");
