@@ -1,66 +1,84 @@
 package controller;
 
 import java.util.ArrayList;
-
 import service.MemberService;
 import view.MemberView;
 import vo.MemberVO;
 
+/**
+ * @작성자 :  	편도훈
+ * @작성일 : 		2021. 1. 21.
+ * @filename : 	MemberController.java
+ * @package : 	controller
+ * @description : 프로그램을 제어하는 클래스
+ */
 public class MemberController {
 	
 	//controller
 
 	
-	public static void insertMember(int number) {
+	public void insertMember(int number) {
 		MemberVO member = new MemberVO();
+		MemberService memberService = new MemberService();
+		MemberView memberView = new MemberView();
 		
-		member=MemberView.printInsertMember(number);
+		member=memberView.printInsertMember(number);
 		
-		MemberService.insertMember(member);
+		int rowcnt= memberService.insertMember(member);
+		memberView.printUpdateMember(rowcnt);
 	}
-	public static void selectAll() {
-		MemberService.selectAll();
+	
+	public void selectAll() {
+		MemberService memberService = new MemberService();
+		MemberView memberView = new MemberView();
+		ArrayList<MemberVO> memberList=memberService.selectAll();
+		memberView.printSelect(memberList);
 	}
 //	멤버 삭제 
-	public static void deleteMember() {
+	public void deleteMember() {
 		ArrayList<MemberVO> memberList= new ArrayList<MemberVO>();
+		MemberService memberService = new MemberService();
+		MemberView memberView = new MemberView();
 		
-		memberList = MemberService.selectByName(2);
-		MemberView.printSelect(memberList);
+		memberList = memberService.selectByName(2);
+		memberView.printSelect(memberList);
 		if(memberList.size()==0) {
 			return;
 		}
-		MemberVO member = MemberView.SelectNumberToUpdate(memberList,2);
-		MemberService.deleteMember(member);
+		MemberVO member = memberView.SelectNumberToUpdate(memberList,2);
+		memberService.deleteMember(member);
 		
 	}
-	public static void updateMember() {
+	public void updateMember() {
 		ArrayList<MemberVO> memberList= new ArrayList<MemberVO>();
+		MemberService memberService = new MemberService();
+		MemberView memberView = new MemberView();
 		
-		memberList = MemberService.selectByName(1);
-		MemberView.printSelect(memberList);
+		memberList = memberService.selectByName(1);
+		memberView.printSelect(memberList);
 		if(memberList.size()==0) {
 			return;
 		}
-		MemberVO member = MemberView.SelectNumberToUpdate(memberList,1);
-		MemberService.deleteMember(member);
+		MemberVO member = memberView.SelectNumberToUpdate(memberList,1);
+		memberService.deleteMember(member);
 		insertMember(2);
 	}
 
 	public static void main(String[] args) {
-		
+		MemberController memberController = new MemberController();
+		MemberView memberView = new MemberView();
 		while(true) {
 			
-			int selector = MemberView.viewIntro();
+			int selector = memberView.viewIntro();
 			if(selector == 1) {
-				insertMember(1);
+				memberController.insertMember(1);
 			}else if(selector == 2){
-				selectAll();
+				memberController.selectAll();
 			}else if (selector == 3) {
-				updateMember();
+				memberController.updateMember();
 			}else if (selector == 4) {
 				// 4번일 경우 멤버를 삭제하는 메소드 출력
-				deleteMember();
+				memberController.deleteMember();
 			}else if (selector == 5) {
 				// 5번일 경우 해당 while문을 빠져나간다.
 				// 반복문을 빠져 나가고 메인 블록을 닫는 중괄호로 가게 되면 출력되는 출력문

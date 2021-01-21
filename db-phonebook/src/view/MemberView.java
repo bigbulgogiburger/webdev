@@ -9,11 +9,18 @@ import vo.MemberVO;
 
 
 
+/**
+ * @작성자 :  	편도훈
+ * @작성일 : 		2021. 1. 21.
+ * @filename : 	MemberView.java
+ * @package : 	view
+ * @description :출력을 담당하는 클래스
+ */
 public class MemberView {
 	
 	private static Scanner scanner = new Scanner(System.in);
 	
-	public static int viewIntro() {
+	public int viewIntro() {
 		while(true) {
 
 			// 도입 문구 출력
@@ -64,10 +71,8 @@ public class MemberView {
 			}
 		}
 	}
-
 	
-
-	public static MemberVO printInsertMember(int number) {
+	public MemberVO printInsertMember(int number) {
 		if(number==1) {
 			System.out.print("추가");
 		}else {
@@ -141,15 +146,8 @@ public class MemberView {
 		// 클래스 변수로 선언된 hashMap타입의 info에 휴대폰번호(key)와 멤버를 new해서 object(value)로 넣어준다.
 		return new MemberVO(name,phoneNumber,address,group);
 	}
-		
 	
-
-
-
-
-
-	
-	public static String nameFinder(int number) {
+	public String nameFinder(int number) {
 		
 		if(number==1) {
 			System.out.print("수정");
@@ -163,7 +161,7 @@ public class MemberView {
 	}
 	// 3번(회원정보 수정하기),4번(회원 삭제)를 선택할 시에 하단부를 출력하는 메소드.
 	// 숫자를 입력받아 3,4번 입력시에 해당하는 메소드에 정수값을 넘겨준다.
-	public static MemberVO SelectNumberToUpdate(ArrayList<MemberVO> memberList,int number) {
+	public MemberVO SelectNumberToUpdate(ArrayList<MemberVO> memberList,int number) {
 		while(true) {
 			if(number==1) {
 				System.out.print("수정");
@@ -176,7 +174,7 @@ public class MemberView {
 			index = scanner.nextInt();
 			scanner.nextLine();
 			}catch(InputMismatchException e) {
-				System.out.println("올바른 숫자를 입력하세요");
+				System.out.println("올바른 숫자를 입력하세요"+"\n"+"범위 : 1~"+memberList.size());
 				// nextInt는 따로 엔터를 처리하거나 문자열을 처리하지 않는다.
 				// 만약 String과 \n이 들어왔다면 계속 IM exception을 출력하기 때문에 비워준다.
 				scanner.nextLine();
@@ -187,18 +185,13 @@ public class MemberView {
 			try {
 				return memberList.get(index-1);
 			}catch(IndexOutOfBoundsException e) {
-				System.out.println("범위 안의 숫자를 입력하세요"+"1~"+memberList.size());
+				System.out.println("범위 안의 숫자를 입력하세요. "+"\n"+"범위 : 1~"+memberList.size());
 				continue;
 			}
-			
-			
-			
-			
 		}
 	}
 	
-	
-	public static void printUpdateMember(int rowcnt) {
+	public void printUpdateMember(int rowcnt) {
 		if(rowcnt>0) {
 			System.out.println("정상적으로 처리되었습니다.");
 		}else {
@@ -206,9 +199,8 @@ public class MemberView {
 		}
 	}
 
-
-	public static void printSelect(ArrayList<MemberVO> memberList) {
-		System.out.println("총 "+memberList.size()+"의 회원이 저장되어 있습니다.");
+	public void printSelect(ArrayList<MemberVO> memberList) {
+		System.out.println("총 "+memberList.size()+"명의 회원이 저장되어 있습니다.");
 		
 		int i=1;
 		for(MemberVO member : memberList) {
@@ -218,7 +210,7 @@ public class MemberView {
 		
 	}
 	
-	public static void printNoSuchMember() {
+	public void printNoSuchMember() {
 		System.out.println("찾으시는 회원이 없습니다.");
 	}
 	
@@ -238,19 +230,18 @@ public class MemberView {
 			// 만약 이 for문을 빠져나왔다면 입력 받은 모든 문자가 유니코드 상의 '0'번 부터 '9'번까지의 값과 같기 때문에
 			// false를 return 한다.
 				return false;
-		}
+	}
 
 	// 이미 저장되어 있는 번호인지 알아보는 메소드
 		public static boolean isAlreadyStored(String phoneNumber) {
-			 ArrayList<MemberVO> memList = MemberDAO.selectByPhoneNumber(phoneNumber);
+			MemberDAO memberDAO= new MemberDAO();
+			 ArrayList<MemberVO> memList = memberDAO.selectByPhoneNumber(phoneNumber);
 			 if(memList.size()>0) {
 				 System.out.println("이미 저장되어 있는 번호입니다. 다시 입력해주세요");
 				 return true;
 			 }else {
 				 return false;
 			 }
-
-		
 		}
 
 		// 번호의 길이가 11이 아닌지, 특수문자 '-'를 포함하고 있는지 0으로 시작하지 않는지 판단하는 메소드

@@ -8,9 +8,16 @@ import java.util.ArrayList;
 
 import vo.MemberVO;
 
+/**
+ * @작성자 :  	편도훈
+ * @작성일 : 		2021. 1. 21.
+ * @filename : 	MemberDAO.java
+ * @package : 	dao
+ * @description :Oracle을 직접적으로 접속하여 데이터를 다루는 클래스
+ */
 public class MemberDAO {
 //	1. 전체 회원 목록
-	public static ArrayList<MemberVO> selectAll(){
+	public ArrayList<MemberVO> selectAll(){
 		ArrayList<MemberVO> memberList	= new ArrayList<MemberVO>();
 		
 		Connection con 				= AccessManager.getConnection();
@@ -50,7 +57,7 @@ public class MemberDAO {
 		return memberList;
 	}
 //	2.1 특정 회원 목록(이름으로 선택하기)
-	public static ArrayList<MemberVO> selectByName(String name) {
+	public ArrayList<MemberVO> selectByName(String name) {
 		ArrayList<MemberVO> memberList	= new ArrayList<MemberVO>();
 		
 		Connection con 				= AccessManager.getConnection();
@@ -66,12 +73,12 @@ public class MemberDAO {
 		sql.append("  from phone_info p						"); 
 		sql.append("     , group_info g						"); 
 		sql.append(" where p.group_number = g.group_number 	");
-		sql.append(" and p.name = ? 	");
+		sql.append(" and p.name like ? 						");
 		
 		
 		try {
 			pstmt = con.prepareStatement(sql.toString());
-			pstmt.setString(1, name);
+			pstmt.setString(1, name+"%");
 			rs = pstmt.executeQuery();
 			while(rs.next()) {
 				MemberVO member = new MemberVO();
@@ -93,7 +100,7 @@ public class MemberDAO {
 		
 	}
 //	2.1 특정 회원 목록(번호로 선택하기)
-	public static ArrayList<MemberVO> selectByPhoneNumber(String phoneNumber) {
+	public ArrayList<MemberVO> selectByPhoneNumber(String phoneNumber) {
 		ArrayList<MemberVO> memberList	= new ArrayList<MemberVO>();
 		
 		Connection con 				= AccessManager.getConnection();
@@ -138,7 +145,7 @@ public class MemberDAO {
 	
 //	3. 회원 추가
 	
-	public static int insertMember(MemberVO member) {
+	public int insertMember(MemberVO member) {
 		Connection con = AccessManager.getConnection();
 		PreparedStatement pstmt = null;
 		int rowcnt = 0;
@@ -169,7 +176,7 @@ public class MemberDAO {
 //  4. 회원 수정
 
 //	5. 회원 삭제
-	public static int deleteMember(MemberVO member) {
+	public int deleteMember(MemberVO member) {
 		
 		Connection con			= AccessManager.getConnection();
 		PreparedStatement pstmt = null;

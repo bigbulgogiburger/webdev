@@ -6,21 +6,31 @@ import dao.MemberDAO;
 import view.MemberView;
 import vo.MemberVO;
 
+/**
+ * @작성자 :  	편도훈
+ * @작성일 : 		2021. 1. 21.
+ * @filename : 	MemberService.java
+ * @package : 	service
+ * @description : 컨트롤과 dao를 연결해주는 클래스
+ */
 public class MemberService {
 
-	public static void insertMember(MemberVO member) {
-		int rowcnt= MemberDAO.insertMember(member);
-		MemberView.printUpdateMember(rowcnt);
+	public int insertMember(MemberVO member) {
+		MemberDAO memberDAO= new MemberDAO();
+		int rowcnt= memberDAO.insertMember(member);
+		return rowcnt;
 	}
 	
-	public static ArrayList<MemberVO> selectByName(int number) {
+	public ArrayList<MemberVO> selectByName(int number) {
+		MemberDAO memberDAO= new MemberDAO();
+		MemberView memberView = new MemberView();
 		ArrayList<MemberVO> memberList	= new ArrayList<MemberVO>();
 		String name = null;
 		while(true) {
-			name=MemberView.nameFinder(number);
-			memberList = MemberDAO.selectByName(name);
+			name=memberView.nameFinder(number);
+			memberList = memberDAO.selectByName(name);
 			if(memberList.size()==0) {
-				MemberView.printNoSuchMember();
+				memberView.printNoSuchMember();
 				return memberList;
 			}else {
 				return memberList;
@@ -29,15 +39,19 @@ public class MemberService {
 		
 		
 	}
-	public static void selectAll() {
+	public ArrayList<MemberVO> selectAll() {
+		MemberDAO memberDAO= new MemberDAO();
 		ArrayList<MemberVO> memberList= new ArrayList<MemberVO>();
-		memberList=MemberDAO.selectAll();
-		MemberView.printSelect(memberList);
+		memberList=memberDAO.selectAll();
+		return memberList;
+		
+		
 	}
 	
 	
-	public static void deleteMember(MemberVO member) {
-		MemberDAO.deleteMember(member);
+	public void deleteMember(MemberVO member) {
+		MemberDAO memberDAO= new MemberDAO();
+		memberDAO.deleteMember(member);
 	}
 }
 
