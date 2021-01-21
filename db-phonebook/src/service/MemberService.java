@@ -21,6 +21,7 @@ public class MemberService {
 			memberList = MemberDAO.selectByName(name);
 			if(memberList.size()==0) {
 				System.out.println("찾으시는 회원이 없습니다.");
+				return memberList;
 			}else {
 				return memberList;
 			}

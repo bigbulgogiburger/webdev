@@ -2,9 +2,7 @@ package view;
 
 import java.util.ArrayList;
 import java.util.InputMismatchException;
-import java.util.Iterator;
 import java.util.Scanner;
-import java.util.Set;
 
 import dao.MemberDAO;
 import vo.MemberVO;
@@ -69,9 +67,14 @@ public class MemberView {
 
 	
 
-	public static MemberVO printInsertMember() {
+	public static MemberVO printInsertMember(int number) {
+		if(number==1) {
+			System.out.print("추가");
+		}else {
+			System.out.print("수정");
+		}
 		// 메소드의 첫 출력문
-		System.out.println("등록할 회원의 정보를 입력하세요.");
+		System.out.println("할 회원의 정보를 입력하세요.");
 		System.out.println("이름 :");
 
 		// 입력된 이름을 받아주는 String 타입의 변수 생성
@@ -214,16 +217,24 @@ public static boolean isNotNumber(String phoneNumber) {
 			index = scanner.nextInt();
 			scanner.nextLine();
 			}catch(InputMismatchException e) {
-			System.out.println("올바른 숫자를 입력하세요");
-			// nextInt는 따로 엔터를 처리하거나 문자열을 처리하지 않는다.
-			// 만약 String과 \n이 들어왔다면 계속 IM exception을 출력하기 때문에 비워준다.
-			scanner.nextLine();
-			
-			
-			continue;
+				System.out.println("올바른 숫자를 입력하세요");
+				// nextInt는 따로 엔터를 처리하거나 문자열을 처리하지 않는다.
+				// 만약 String과 \n이 들어왔다면 계속 IM exception을 출력하기 때문에 비워준다.
+				scanner.nextLine();
+				continue;
 			
 			}
-			return memberList.get(index-1);
+
+			try {
+				return memberList.get(index-1);
+			}catch(IndexOutOfBoundsException e) {
+				System.out.println("범위 안의 숫자를 입력하세요"+"1~"+memberList.size());
+				continue;
+			}
+			
+			
+			
+			
 		}
 	}
 	
