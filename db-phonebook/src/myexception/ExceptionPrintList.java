@@ -10,8 +10,8 @@ public class ExceptionPrintList {
 //	조건문에서 걸러지면 호출되는 메소드로 이루어진 클래스
 	
 	
-	public void NumberNotInIndexBoundPrint(ArrayList<MemberVO> memberList) {
-		System.out.println("올바른 숫자를 입력하세요"+"\n"+"범위 : 1~"+memberList.size());
+	public void NumberNotInIndexBoundPrint(int count) {
+		System.out.println("올바른 숫자를 입력하세요"+"\n"+"범위 : 1~"+count);
 	}
 	
 	public void InputMistmatchPrint() {

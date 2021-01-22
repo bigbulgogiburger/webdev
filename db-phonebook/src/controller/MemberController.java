@@ -134,6 +134,7 @@ public class MemberController {
 	// 3번(회원정보 수정하기),4번(회원 삭제)를 선택할 시에 하단부를 출력하는 메소드.
 	// 숫자를 입력받아 3,4번 입력시에 해당하는 메소드에 정수값을 넘겨준다.
 	public MemberVO SelectNumberToUpdate(ArrayList<MemberVO> memberList,int number) {
+		int memberCount = memberList.size();
 		while(true) {
 			memberView.printSelectNumberToUpdate(number);
 			String stringIndex=null;
@@ -142,10 +143,9 @@ public class MemberController {
 			stringIndex = scanner.nextLine();
 			index= Integer.parseInt(stringIndex);
 			}catch(InputMismatchException|NumberFormatException e) {
-				exceptionPrintList.NumberNotInIndexBoundPrint(memberList);
+				exceptionPrintList.NumberNotInIndexBoundPrint(memberCount);
 				// nextInt는 따로 엔터를 처리하거나 문자열을 처리하지 않는다.
 				// 만약 String과 \n이 들어왔다면 계속 IM exception을 출력하기 때문에 비워준다.
-				scanner.nextLine();
 				continue;
 			
 			}
@@ -153,7 +153,7 @@ public class MemberController {
 			try {
 				return memberList.get(index-1);
 			}catch(IndexOutOfBoundsException e) {
-				exceptionPrintList.NumberNotInIndexBoundPrint(memberList);
+				exceptionPrintList.NumberNotInIndexBoundPrint(memberCount);
 				continue;
 			}
 		}
