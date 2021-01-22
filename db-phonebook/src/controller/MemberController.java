@@ -225,7 +225,7 @@ public class MemberController {
 		insertMember(2);
 	}
 
-	public static void main(String[] args){
+	public void start(){
 		ExceptionPrintList exceptionPrintList = new ExceptionPrintList();
 		MemberController memberController = new MemberController();
 		MemberView memberView = new MemberView();
