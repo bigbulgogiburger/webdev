@@ -1,6 +1,7 @@
 package myexception;
 
 public class NameInputException extends Exception {
+
 	private static final long serialVersionUID = 1L;
 
 	public void print() {

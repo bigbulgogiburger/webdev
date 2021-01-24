@@ -70,6 +70,7 @@ public class MemberDAO {
 		sql.append("     , p.phonenumber					");
 		sql.append("     , p.address						");
 		sql.append("     , g.group_name						");
+		sql.append("     , member_num						");
 		sql.append("  from phone_info p						"); 
 		sql.append("     , group_info g						"); 
 		sql.append(" where p.group_number = g.group_number 	");
@@ -86,6 +87,7 @@ public class MemberDAO {
 				member.setPhoneNumber(rs.getString("phonenumber"));
 				member.setAddress(rs.getString("address"));
 				member.setGroup(rs.getString("group_name"));
+				member.setMemberNum(rs.getInt("member_num"));
 				memberList.add(member);
 			}
 			
@@ -100,36 +102,27 @@ public class MemberDAO {
 		
 	}
 //	2.1 특정 회원 목록(번호로 선택하기)
-	public ArrayList<MemberVO> selectByPhoneNumber(String phoneNumber) {
-		ArrayList<MemberVO> memberList	= new ArrayList<MemberVO>();
-		
+	public int selectByPhoneNumber(String phoneNumber) {
 		Connection con 				= AccessManager.getConnection();
 		PreparedStatement pstmt 	= null;
 		ResultSet rs 				= null;
+		int member_num = -1;
 		
 		StringBuilder sql			= new StringBuilder();
 		
-		sql.append("select p.name							");
-		sql.append("     , p.phonenumber					");
-		sql.append("     , p.address						");
-		sql.append("     , g.group_name						");
-		sql.append("  from phone_info p						"); 
-		sql.append("     , group_info g						"); 
-		sql.append(" where p.group_number = g.group_number 	");
-		sql.append(" and p.phonenumber = ? 					");
+		sql.append("select p.member_num							");
+		sql.append("  from phone_info p							"); 
+		sql.append(" where p.phonenumber = ? 					");
 		
 		
 		try {
 			pstmt = con.prepareStatement(sql.toString());
 			pstmt.setString(1, phoneNumber);
 			rs = pstmt.executeQuery();
+			
 			while(rs.next()) {
-				MemberVO member = new MemberVO();
-				member.setName(rs.getString("name"));
-				member.setPhoneNumber(rs.getString("phonenumber"));
-				member.setAddress(rs.getString("address"));
-				member.setGroup(rs.getString("group_name"));
-				memberList.add(member);
+				
+				member_num = rs.getInt("member_num");
 			}
 			
 			
@@ -139,7 +132,7 @@ public class MemberDAO {
 		finally {
 			AccessManager.close(con,pstmt,rs);
 		}
-		return memberList;
+		return member_num;
 		
 	}
 	
@@ -151,9 +144,9 @@ public class MemberDAO {
 		int rowcnt = 0;
 		StringBuilder sql= new StringBuilder();
 		
-		sql.append("insert into phone_info(name, phonenumber"
-				+ ", address, group_number)	");
-		sql.append("			values(?,?,?,?)				");
+		sql.append("	insert into phone_info(name, phonenumber");
+		sql.append("	    , address, group_number,member_num)	");
+		sql.append("		values(?,?,?,?,member_num.nextval)	");
 		
 		try {
 			pstmt=con.prepareStatement(sql.toString());
@@ -173,10 +166,44 @@ public class MemberDAO {
 		
 		return rowcnt;
 	}
+	
+//	4. 회원 수정 메소드
+	public int updateMember(MemberVO member, int member_num) {
+		Connection con			= AccessManager.getConnection();
+		PreparedStatement pstmt = null;
+		int rowcnt				= 0;
+		StringBuilder sql 		= new StringBuilder();
+		
+		sql.append("update phone_info		");
+		sql.append("   set 					");
+		sql.append("   name = ?				");
+		sql.append(",  phonenumber =?		");
+		sql.append(",  address = ?			");
+		sql.append(",  group_number = ? 		");
+		sql.append("   where member_num = ? 	");
+		try {
+			pstmt=con.prepareStatement(sql.toString());
+			pstmt.setString(1, member.getName());
+			pstmt.setString(2, member.getPhoneNumber());
+			pstmt.setString(3, member.getAddress());
+			pstmt.setInt(4, member.getGroupNumber());
+			pstmt.setInt(5, member_num);
+			rowcnt=pstmt.executeUpdate();
+			
+			
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}finally {
+			AccessManager.close(con,pstmt);
+		}
+		
+		return rowcnt;
+	}
+	
 
 
-//	4. 회원 삭제 메소드
-	public int deleteMember(MemberVO member) {
+//	5. 회원 삭제 메소드
+	public int deleteMember(int member_num) {
 		
 		Connection con			= AccessManager.getConnection();
 		PreparedStatement pstmt = null;
@@ -184,12 +211,10 @@ public class MemberDAO {
 		StringBuilder sql 		= new StringBuilder();
 		
 		sql.append("delete from phone_info	");
-		sql.append(" where name = ? 		");
-		sql.append("   and phonenumber =?	");
+		sql.append(" where member_num = ? 		");
 		try {
 			pstmt = con.prepareStatement(sql.toString());
-			pstmt.setString(1, member.getName());
-			pstmt.setString(2, member.getPhoneNumber());
+			pstmt.setInt(1, member_num);
 			rowcnt = pstmt.executeUpdate();
 		}catch(SQLException e) {
 			e.printStackTrace();

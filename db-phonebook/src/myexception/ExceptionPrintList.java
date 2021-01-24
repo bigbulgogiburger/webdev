@@ -1,11 +1,10 @@
 package myexception;
 
-import java.util.ArrayList;
-
-import dao.MemberDAO;
+import service.MemberService;
 import vo.MemberVO;
 
 public class ExceptionPrintList {
+	
 	
 //	조건문에서 걸러지면 호출되는 메소드로 이루어진 클래스
 	
@@ -38,10 +37,15 @@ public class ExceptionPrintList {
 	}
 
 	// 이미 저장되어 있는 번호인지 알아보는 메소드
-		public boolean isAlreadyStored(String phoneNumber) {
-			MemberDAO memberDAO= new MemberDAO();
-			 ArrayList<MemberVO> memList = memberDAO.selectByPhoneNumber(phoneNumber);
-			 if(memList.size()>0) {
+		public boolean isAlreadyStored(String phoneNumber,MemberVO member) {
+			MemberService memberService= new MemberService();
+			int member_num = memberService.selectByPhoneNumber(phoneNumber);
+			 
+			if(member_num==-1) {
+			    return false;
+			 }
+			 
+			 if(member_num!=member.getMemberNum()) {
 				 System.out.println("이미 저장되어 있는 번호입니다. 다시 입력해주세요");
 				 return true;
 			 }else {

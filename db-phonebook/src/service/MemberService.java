@@ -19,7 +19,6 @@ public class MemberService {
 	
 	
 	public int insertMember(MemberVO member) {
-		memberDAO= new MemberDAO();
 		
 		int rowcnt= memberDAO.insertMember(member);
 		
@@ -27,21 +26,20 @@ public class MemberService {
 	}
 	
 	public ArrayList<MemberVO> selectByName(String name) {
-		memberDAO= new MemberDAO();
-		memberList	= new ArrayList<MemberVO>();
 		
-		while(true) {
-			memberList = memberDAO.selectByName(name);
-			return memberList;
-			
-		}
-		
+		memberList = memberDAO.selectByName(name);
+		return memberList;
+	
 		
 	}
 	
+	public int selectByPhoneNumber(String phoneNumber) {
+		int member_num = memberDAO.selectByPhoneNumber(phoneNumber); 
+		return member_num;
+	}
+	
+	
 	public ArrayList<MemberVO> selectAll() {
-		memberDAO= new MemberDAO();
-		memberList= new ArrayList<MemberVO>();
 		
 		memberList=memberDAO.selectAll();
 		
@@ -50,11 +48,16 @@ public class MemberService {
 		
 	}
 	
+	public int updateMember(MemberVO member,int member_num) {
+		int rowcnt = memberDAO.updateMember(member,member_num);
+		return rowcnt;
+	}
 	
-	public void deleteMember(MemberVO member) {
-		memberDAO= new MemberDAO();
+	
+	public int deleteMember(int member_num) {
 		
-		memberDAO.deleteMember(member);
+		int rowcnt = memberDAO.deleteMember(member_num);
+		return rowcnt;
 	}
 }
 

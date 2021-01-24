@@ -3,9 +3,9 @@ package vo;
 public class MemberVO {
 	private String name;   
 	private String phoneNumber;
-	  
 	private String address;   
 	private String group;   
+	private int memberNum;
 
 	public MemberVO() {
 		
@@ -65,6 +65,12 @@ public class MemberVO {
 	public String toString() {
 		return "[이름  : " + name + ", 전화번호  : " + phoneNumber + ", 주소  : " + address + ", 그룹 : " + group
 				+ "]";
+	}
+	public int getMemberNum() {
+		return memberNum;
+	}
+	public void setMemberNum(int memberNum) {
+		this.memberNum = memberNum;
 	}
 	
 	
