@@ -6,6 +6,7 @@ import java.util.Scanner;
 
 import myexception.ExceptionPrintList;
 import myexception.NameInputException;
+import myexception.NoSuchMemberException;
 import myexception.WrongGroupException;
 import myexception.WrongNumberException;
 import service.MemberService;
@@ -29,7 +30,7 @@ public class MemberController {
 	ArrayList<MemberVO> memberList = new ArrayList<MemberVO>();
 	ExceptionPrintList exceptionPrintList = new ExceptionPrintList();
 	
-	private static Scanner scanner = new Scanner(System.in);
+	Scanner scanner = new Scanner(System.in);
 	
 //	1. 추가, 3. 수정 시에 출력되는 메소드
 //	첫번째 파라미터 number가 1이 들어오면 추가 2가 들어오면 수정을 하게하는 출력문이 출력된다.(view 영역에서).
@@ -157,7 +158,7 @@ public class MemberController {
 		return name;
 	}
 	
-//	수정 또는 삭제시에 번호를 고르게 하는 메소드. VO의 어레이리스트와 숫자를 입력받아 수정/삭제될 1명을 리턴한다.
+//	수정 또는 삭제시에 번호를 고르게 하는 메소드. VO의 어레이리스트와 숫자를 입력받아 (1. 수정/2. 삭제)될 1명을 리턴한다.
 	public MemberVO SelectNumberToUpdate(ArrayList<MemberVO> memberList, int number) {
 		
 //		총 몇명인지 세는 변수를 선언.
@@ -232,21 +233,42 @@ public class MemberController {
 //	2. 전체 목록 보기를 선택할 시에 출력되는 출력문
 	public void selectAll() {
 		
+//		전체를 셀렉트한다. controller->service->dao
 		memberList=memberService.selectAll();
-		
-		memberView.printSelect(memberList);
+		int memberSize= memberList.size();
+//		받은 멤베리스트를 출력하게한다.
+		memberView.printMemberCount(memberSize);
+		for(int i =0;i<memberSize;i++) {
+			memberView.printSelect(memberList.get(i),i+1);
+		}
 	}
 //	멤버 삭제 
 	public void deleteMember() {
-		
+//		int로 2의 값을 주어 (삭제)에 대한 이름을 리턴하는 메소드를 불러온다(controller)
 		String name = nameFinder(2);
+		
+//		서비스에 이름을 대입하여 dao가 리스트를 뽑아내게 하여 받아온다.
 		memberList = memberService.selectByName(name);
+		int memberSize= memberList.size();
 		
-		memberView.printSelect(memberList);
-		
+//		받은 멤버의 사이즈가 0이라면 예외를 던지고 메소드를 종료한다.
 		if(memberList.size()==0) {
-			memberView.printNoSuchMember();
-			return;
+			try {
+//				만약 사이즈가 0이라면 예외를 강제로 던진다.
+				throw new NoSuchMemberException();
+				
+//				던져진 예외를 catch한다.
+			}catch(NoSuchMemberException e) {
+//				그런 멤버는 없다고 출력하고
+				e.print();
+//				메소드를 종료한다.
+				return;
+			}
+			
+		}
+		memberView.printMemberCount(memberSize);
+		for(int i =0;i<memberSize;i++) {
+			memberView.printSelect(memberList.get(i),i+1);
 		}
 		
 		MemberVO member = SelectNumberToUpdate(memberList,2);
@@ -263,12 +285,22 @@ public class MemberController {
 		String name = nameFinder(1);
 		
 		memberList = memberService.selectByName(name);
-		
-		memberView.printSelect(memberList);
+		int memberSize= memberList.size();
 		
 		if(memberList.size()==0) {
-			memberView.printNoSuchMember();
-			return;
+			try {
+				throw new NoSuchMemberException();
+				
+			}catch(NoSuchMemberException e) {
+				e.print();
+				return;
+			}
+			
+		}
+		
+		memberView.printMemberCount(memberSize);
+		for(int i =0;i<memberSize;i++) {
+			memberView.printSelect(memberList.get(i),i+1);
 		}
 		
 		MemberVO member = SelectNumberToUpdate(memberList,1);
@@ -309,6 +341,8 @@ public class MemberController {
 				memberController.deleteMember();
 				
 			}else if (selector == 5) {
+				memberView.goodBye();
+				scanner.close();
 				// 5번일 경우 해당 while문을 빠져나간다.
 				// 반복문을 빠져 나가고 메인 블록을 닫는 중괄호로 가게 되면 출력되는 출력문
 				return ;

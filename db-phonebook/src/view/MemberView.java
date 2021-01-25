@@ -1,10 +1,5 @@
 package view;
 
-import java.util.ArrayList;
-import vo.MemberVO;
-
-
-
 /**
  * @작성자 :  	편도훈
  * @작성일 : 		2021. 1. 21.
@@ -84,22 +79,22 @@ public class MemberView {
 			System.out.println("정상적으로 처리되지 않았습니다.");
 		}
 	}
-
-	public void printSelect(ArrayList<MemberVO> memberList) {
-		System.out.println("총 "+memberList.size()+"명의 회원이 저장되어 있습니다.");
-		
-		int i=1;
-		for(MemberVO member : memberList) {
-			System.out.println(i+". "+member.toString());
-			i++;
-		}
+	
+	public void printMemberCount(int size) {
+		System.out.println("총 "+size+"명의 회원이 저장되어 있습니다.");
 	}
 	
-	public void printNoSuchMember() {
-		System.out.println("찾으시는 회원이 없습니다.");
+	public void printSelect(Object obj,int index) {
+		System.out.println(index+". "+obj.toString());
+	}
+	public void goodBye() {
+		System.out.println("프로그램이 종료되었습니다.");
 	}
 
+	
 
+
+	
 	
 }
 	
