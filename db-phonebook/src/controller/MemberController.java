@@ -28,28 +28,31 @@ public class MemberController {
 	MemberView memberView = new MemberView();
 	ArrayList<MemberVO> memberList = new ArrayList<MemberVO>();
 	ExceptionPrintList exceptionPrintList = new ExceptionPrintList();
+	
 	private static Scanner scanner = new Scanner(System.in);
 	
 //	1. 추가, 3. 수정 시에 출력되는 메소드
 //	첫번째 파라미터 number가 1이 들어오면 추가 2가 들어오면 수정을 하게하는 출력문이 출력된다.(view 영역에서).
-//	두번째 파라미터 member는 추가시엔 new Member가 들어오고, 수정시에는 이미 작성되어 있는 객체를 불러온다.
+//	두번째 파라미터 member는 추가시엔 new Member가 들어오고, 수정시에는 이미 값이 있는 객체를 불러온다.
 	public MemberVO processInsertMember(int number, MemberVO member){
 //		number가 1일 시에는 (추가) 2일시에는 (수정)이라는 출력문이 뜬다.
 		memberView.printInsertMemberIntro(number);
 		String name = null;
 		// 이름을 입력하지 않았을 경우에는 다음과 같은 while문을 반복하게 한다.
 		while(true) {
-
+//			이름을 받아온다.
 			name = scanner.nextLine();
-
+//			만약 이름을 아무것도 입력하지 않았다면 exception을 던진다.
 			if(name.equals("")){
 				try{
+//					이름이 없는 것에 대해 예외를 강제적으로 던진 후 catch한다.
 					throw new NameInputException();
 				}catch(NameInputException e) {
 					e.print();
 					continue;	
 				}
 			}else {
+//				그렇지 않다면 이 반복문을 탈출한다.
 				break;
 			}
 		}
@@ -185,7 +188,7 @@ public class MemberController {
 			}
 
 			try {
-//				숫자가 들어오고 VO를 반납할때에 올바른 범위가 아니면 발생하는 예외
+//				숫자가 들어오고 VO를 get할때에 올바른 범위가 아니면 발생하는 예외
 				return memberList.get(index-1);
 			}catch(IndexOutOfBoundsException e) {
 //				올바른 숫자를 입력하라는 출력문
@@ -216,11 +219,14 @@ public class MemberController {
 //		수정할때에는 number=2, member는 search를 통해 찾은 이름 중 선택 된 member object이다.
 		member=processInsertMember(number,member);
 		
-//		멤버의 멤버번호를 get
+//		멤버의 멤버번호를 돌려받는다.
 		int member_num = member.getMemberNum();
-		
+//		updaateMember에 멤버 오브젝트와, 멤버 번호를 전달한다.
+//		전달 후 멤버번호와 멤버의 핸드폰 번호를 비교하면서 수정한다.
+//		return으로 dao에서 수정이 완료되었는지에 대한 int가 들어온다.
 		int rowcnt= memberService.updateMember(member,member_num);
 		
+//		rowcnt에 따라 결과가 달라지는 출력문
 		memberView.printUpdateMember(rowcnt);
 	}
 //	2. 전체 목록 보기를 선택할 시에 출력되는 출력문
