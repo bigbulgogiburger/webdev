@@ -201,19 +201,22 @@ public class MemberController {
 		member = new MemberVO();
 		
 //		VO는 상단의 processInsertMember 메소드를 가져온다.
-//		
+//		1번과 새로운 VO object를 전달하고, insert할 VO를 리턴받는다.
 		member=processInsertMember(number, new MemberVO());
 		
+//		받은 값을 service 영역에다 전달한다. service는 dao의 sql처리 결과를 rowcnt로 리턴하고
+//		그 결과를 controller의 이 메소드가 받는다.
 		int rowcnt= memberService.insertMember(member);
-		
+//		rowcnt가 1이상이면 성공 0이면 실패했다고 출력한다.
 		memberView.printUpdateMember(rowcnt);
 	}
 	
-//	수정할때에 호출되는 메소드
+//	수정할때에 호출되는 메소드(오버로딩됨)
 	public void insertMember(int number,MemberVO member) {
-		
+//		수정할때에는 number=2, member는 search를 통해 찾은 이름 중 선택 된 member object이다.
 		member=processInsertMember(number,member);
 		
+//		멤버의 멤버번호를 get
 		int member_num = member.getMemberNum();
 		
 		int rowcnt= memberService.updateMember(member,member_num);
@@ -247,6 +250,8 @@ public class MemberController {
 		memberView.printUpdateMember(rowcnt); 
 		
 	}
+	
+	
 	public void updateMember() {
 		
 		String name = nameFinder(1);
