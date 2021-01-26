@@ -16,17 +16,25 @@ import vo.MemberVO;
  * @description :Oracle을 직접적으로 접속(connection,close)하여 데이터를 다루는 클래스 
  */
 public class MemberDAO {
+//	dao에서 중복되어 쓰이는 메소드를 담은 클래스 
 	AccessManager accessManager = new AccessManager();
+	
+//	미리 중복되어 쓰여질 변수들을 전역으로 선언한다.
+	Connection con 				= null;
+	PreparedStatement pstmt 	= null;
+	ResultSet rs 				= null;
+	StringBuilder sql			= new StringBuilder();
+	ArrayList<MemberVO> memberList	= new ArrayList<MemberVO>();
 //	1. 전체 회원 목록
 //	이 메소드는 전체 회원의 목록을 어레이리스트 형태로 리턴한다.
 	public ArrayList<MemberVO> selectAll(){
-		ArrayList<MemberVO> memberList	= new ArrayList<MemberVO>();
+		memberList	= new ArrayList<MemberVO>();
 		
-		Connection con 				= accessManager.getConnection();
-		PreparedStatement pstmt 	= null;
-		ResultSet rs 				= null;
+		con 	= accessManager.getConnection();
+		pstmt 	= null;
+		rs 		= null;
 		
-		StringBuilder sql			= new StringBuilder();
+		sql		= new StringBuilder();
 		
 		sql.append(" select p.name								");
 		sql.append("      , p.phonenumber						");
@@ -61,11 +69,11 @@ public class MemberDAO {
 //	2.1 특정 회원 목록(이름으로 선택하기)
 //	이 메소드는 이름을 입력받아 sql문을 처리한 후 값을 어레이리스트로 보낸다.
 	public ArrayList<MemberVO> selectByName(String name) {
-		ArrayList<MemberVO> memberList	= new ArrayList<MemberVO>();
+		memberList	= new ArrayList<MemberVO>();
 		
-		Connection con 				= accessManager.getConnection();
-		PreparedStatement pstmt 	= null;
-		ResultSet rs 				= null;
+		con 	= accessManager.getConnection();
+		pstmt 	= null;
+		rs 		= null;
 		
 		StringBuilder sql			= new StringBuilder();
 		
@@ -107,12 +115,12 @@ public class MemberDAO {
 //	2.2 특정 회원 목록(번호로 선택하기)
 //	이 메소드는 핸드폰 번호(String)을 입력받아 회원번호(int)를 리턴한다.
 	public int selectByPhoneNumber(String phoneNumber) {
-		Connection con 				= accessManager.getConnection();
-		PreparedStatement pstmt 	= null;
-		ResultSet rs 				= null;
-		int member_num = -1;
-		
-		StringBuilder sql			= new StringBuilder();
+		con 			= accessManager.getConnection();
+		pstmt 			= null;
+		rs 				= null;
+//		멤버 넘버가 리턴 할 시에 -1이라면 해당 번호로 저장되어 있는 회원이 없다는 것이다.
+		int member_num  = -1;
+		sql				= new StringBuilder();
 		
 		sql.append("	select p.member_num						");
 		sql.append("      from phone_info p						"); 
@@ -143,10 +151,10 @@ public class MemberDAO {
 //	3. 회원 추가
 //	이 메소드는 VO를 파라미터로 입력받아 실행결과인 rowcnt를 리턴한다.
 	public int insertMember(MemberVO member) {
-		Connection con = accessManager.getConnection();
-		PreparedStatement pstmt = null;
-		int rowcnt = 0;
-		StringBuilder sql= new StringBuilder();
+		con 		= accessManager.getConnection();
+		pstmt 		= null;
+		int rowcnt  = 0;
+		sql			= new StringBuilder();
 		
 		sql.append("	insert into phone_info(name, phonenumber	");
 		sql.append("	    , address, group_number,member_num)		");
@@ -173,10 +181,10 @@ public class MemberDAO {
 	
 //	4. 회원 수정 메소드
 	public int updateMember(MemberVO member, int member_num) {
-		Connection con			= accessManager.getConnection();
-		PreparedStatement pstmt = null;
-		int rowcnt				= 0;
-		StringBuilder sql 		= new StringBuilder();
+		con	  		= accessManager.getConnection();
+		pstmt 		= null;
+		int rowcnt  = 0;
+		sql 		= new StringBuilder();
 		
 		sql.append("	          update phone_info	");
 		sql.append("   	             set 			");
@@ -194,7 +202,6 @@ public class MemberDAO {
 			pstmt.setInt(5, member_num);
 			rowcnt=pstmt.executeUpdate();
 			
-			
 		}catch(SQLException e) {
 			e.printStackTrace();
 		}finally {
@@ -203,16 +210,14 @@ public class MemberDAO {
 		
 		return rowcnt;
 	}
-	
-
 
 //	5. 회원 삭제 메소드
 	public int deleteMember(int member_num) {
 		
-		Connection con			= accessManager.getConnection();
-		PreparedStatement pstmt = null;
-		int rowcnt				= 0;
-		StringBuilder sql 		= new StringBuilder();
+		con			= accessManager.getConnection();
+		pstmt 		= null;
+		int rowcnt	= 0;
+		sql 		= new StringBuilder();
 		
 		sql.append("delete from phone_info		");
 		sql.append(" where member_num = ? 		");
