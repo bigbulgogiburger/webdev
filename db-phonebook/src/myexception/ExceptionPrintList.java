@@ -27,13 +27,18 @@ public class ExceptionPrintList {
 
 			// 만약 비교하는 문자가 유니코드 상의 '0'번 부터 '9'번까지의 값과 같지 않다면 true를 리턴한다.
 			if(!(x>='0'&&x<='9')) {
-				System.out.println("올바른 번호가 아닙니다. \n 문자를 제외한 숫자만 입력하세요.");
-				return true;
+				try{
+					throw new NotNumberException();
+				}catch(NotNumberException e) {
+					e.print();
+					return true;
+				}
+				
 			}
 		}
 			// 만약 이 for문을 빠져나왔다면 입력 받은 모든 문자가 유니코드 상의 '0'번 부터 '9'번까지의 값과 같기 때문에
 			// false를 return 한다.
-				return false;
+		return false;
 	}
 
 	// 이미 저장되어 있는 번호인지 알아보는 메소드
@@ -46,8 +51,13 @@ public class ExceptionPrintList {
 			 }
 			 
 			 if(member_num!=member.getMemberNum()) {
-				 System.out.println("이미 저장되어 있는 번호입니다. 다시 입력해주세요");
-				 return true;
+				 try {
+					throw new AlreadyStoredException();
+				 }catch(AlreadyStoredException e) {
+					 e.print();
+					 return true;
+				 }
+				 
 			 }else {
 				 return false;
 			 }
@@ -58,8 +68,13 @@ public class ExceptionPrintList {
 		public boolean isNotCorrectNumber(String phoneNumber) {
 			char[] phoneNumberCharArr = phoneNumber.toCharArray();
 			if(phoneNumber.length()!=11||phoneNumber.contains("-")||phoneNumberCharArr[0]!='0') {
-				System.out.println("올바른 번호가 아닙니다.\n 전화번호는 '-'를 제외한 숫자 11자리와 0으로 시작하게 입력해주세요");
-				return true;
+				try {
+					throw new PhoneNumberMisMatchException();
+				}catch(PhoneNumberMisMatchException e) {
+					e.print();
+					return true;
+				}
+				
 			}else {
 				return false;
 			}

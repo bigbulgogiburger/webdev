@@ -1,6 +1,6 @@
 package myexception;
 
-public class NoSuchMemberException extends Exception{
+public class NoSuchMemberException extends SimpleException{
 	private static final long serialVersionUID = 1L;
 
 	public void print() {

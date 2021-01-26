@@ -13,11 +13,11 @@ import java.sql.SQLException;
  * @작성일 : 		2021. 1. 21.
  * @filename : 	AccessManager.java
  * @package : 	dao
- * @description :
+ * @description :DAO에서 자주 사용하는 커넥션과 클로즈를 담고 있는 클래스. DAO에서만 꺼내서 사용한다.
  */
 public class AccessManager {
 	
-	public static Connection getConnection() {
+	public Connection getConnection() {
 		Connection con= null;
 		String url 		= "jdbc:oracle:thin:@localhost:1521:xe";
 		String user 	= "ora_user";
@@ -35,7 +35,7 @@ public class AccessManager {
 		
 	}
 	
-	public static void close(Connection con, PreparedStatement pstmt, ResultSet rs) {
+	public void close(Connection con, PreparedStatement pstmt, ResultSet rs) {
 		
 		try {
 			if(rs!=null) {
@@ -56,7 +56,7 @@ public class AccessManager {
 		}
 	}
 	
-	public static void close(Connection con, PreparedStatement pstmt) {
+	public void close(Connection con, PreparedStatement pstmt) {
 		try {
 			
 			if(pstmt!=null) {

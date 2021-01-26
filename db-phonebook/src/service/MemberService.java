@@ -22,13 +22,15 @@ public class MemberService {
 	ArrayList<MemberVO> memberList= new ArrayList<MemberVO>();
 	
 	
+//	멤버를 추가하는 메소드이다. controller에게 VO를 전달받아 그 값을 DAO에게 넘겨준다.
 	public int insertMember(MemberVO member) {
 		
+//		Service는 rowcnt를 전달받아 controller에게 전달
 		int rowcnt= memberDAO.insertMember(member);
 		
 		return rowcnt;
 	}
-	
+//	controller에게 이름을 전달받아 DAO에게 전달하는 메소드이다.
 	public ArrayList<MemberVO> selectByName(String name) {
 		
 		memberList = memberDAO.selectByName(name);
@@ -46,15 +48,19 @@ public class MemberService {
 //				메소드를 종료한다.
 			}
 		}
+//		만약 해당하는 멤버가 없다면 전달되는 어레이리스트의 사이즈는 0이다. 
 		return memberList;
 	}
 	
+//	핸드폰 번호를 controller에게 전달받아 dao에게 전달하는 메소드. 
+//	이 메소드는 dao에게 해당 핸드폰 번호를 가진 멤버의 회원번호를 전달받는다.
+//	전달받은 회원번호를 예외처리를 진행할때에 사용하는 메소드이다.
 	public int selectByPhoneNumber(String phoneNumber) {
 		int member_num = memberDAO.selectByPhoneNumber(phoneNumber); 
 		return member_num;
 	}
 	
-	
+//	dao에게 어레이리스트를 받아 그 값을 controller에게 전달하는 메소드
 	public ArrayList<MemberVO> selectAll() {
 		
 		memberList=memberDAO.selectAll();
@@ -63,7 +69,7 @@ public class MemberService {
 		
 		
 	}
-	
+//	멤버를 수정할때에 사용하는 메소드이다. dao는 수정시에 member_num을 이 메소드로부터 따로 전달받는다.
 	public int updateMember(MemberVO member) {
 		int member_num = member.getMemberNum();
 		int rowcnt = memberDAO.updateMember(member,member_num);
@@ -71,13 +77,13 @@ public class MemberService {
 		return rowcnt;
 	}
 	
-	
+//	dao에게 멤버 삭제를 요청하고 그 결과값으로 rowcnt를 받는 메소드. 해당 rowcnt는 controller에게 전달된다.
 	public int deleteMember(int member_num) {
 		
 		int rowcnt = memberDAO.deleteMember(member_num);
 		return rowcnt;
 	}
-	
+//	회원 추가, 수정시에 핸드폰번호에 대한 예외처리가 담겨있는 메소드.
 	public boolean phonNumberChecker(String phoneNumber, MemberVO member) {
 		
 	// 3가지 조건 중 1개라도 만족하면 메소드 내의 문장을 출력하고, 다시 while문의 조건으로 돌아간다.
@@ -92,7 +98,7 @@ public class MemberService {
 			return false;
 		}
 	}
-	
+//	그룹이름이 올바른지 확인하는 메소드
 	public boolean groupNameChecker(String groupName) {
 	// 3가지 조건 중 1개라도 만족하면 while문을 탈출한다.
 	// 1. 입력된 값이 '가족'일 것, 입력된 값이 '친구'일 것, 입력된 값이 '기타'일 것
@@ -113,6 +119,8 @@ public class MemberService {
 
 		}
 	}
+	
+//	이름이 null인지 판별하여 boolean을 전달하는 메소드
 	public boolean nameNullChecker(String name) {
 		if(name.equals("")){
 			try{

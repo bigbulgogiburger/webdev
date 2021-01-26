@@ -1,6 +1,6 @@
 package myexception;
 
-public class WrongGroupException extends Exception {
+public class WrongGroupException extends SimpleException {
 	private static final long serialVersionUID = 1L;
 
 	public void print() {

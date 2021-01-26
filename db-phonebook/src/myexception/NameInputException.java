@@ -1,6 +1,6 @@
 package myexception;
 
-public class NameInputException extends Exception {
+public class NameInputException extends SimpleException{
 
 	private static final long serialVersionUID = 1L;
 

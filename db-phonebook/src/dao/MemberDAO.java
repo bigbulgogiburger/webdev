@@ -16,23 +16,25 @@ import vo.MemberVO;
  * @description :Oracle을 직접적으로 접속(connection,close)하여 데이터를 다루는 클래스 
  */
 public class MemberDAO {
+	AccessManager accessManager = new AccessManager();
 //	1. 전체 회원 목록
+//	이 메소드는 전체 회원의 목록을 어레이리스트 형태로 리턴한다.
 	public ArrayList<MemberVO> selectAll(){
 		ArrayList<MemberVO> memberList	= new ArrayList<MemberVO>();
 		
-		Connection con 				= AccessManager.getConnection();
+		Connection con 				= accessManager.getConnection();
 		PreparedStatement pstmt 	= null;
 		ResultSet rs 				= null;
 		
 		StringBuilder sql			= new StringBuilder();
 		
-		sql.append("select p.name							");
-		sql.append("     , p.phonenumber					");
-		sql.append("     , p.address						");
-		sql.append("     , g.group_name						");
-		sql.append("  from phone_info p						"); 
-		sql.append("     , group_info g						"); 
-		sql.append(" where p.group_number = g.group_number 	");
+		sql.append(" select p.name								");
+		sql.append("      , p.phonenumber						");
+		sql.append("      , p.address							");
+		sql.append("      , g.group_name						");
+		sql.append("   from phone_info p						"); 
+		sql.append("      , group_info g						"); 
+		sql.append("  where p.group_number = g.group_number 	");
 		
 		
 		try {
@@ -52,15 +54,16 @@ public class MemberDAO {
 			e.printStackTrace();
 		}
 		finally {
-			AccessManager.close(con,pstmt,rs);
+			accessManager.close(con,pstmt,rs);
 		}
 		return memberList;
 	}
 //	2.1 특정 회원 목록(이름으로 선택하기)
+//	이 메소드는 이름을 입력받아 sql문을 처리한 후 값을 어레이리스트로 보낸다.
 	public ArrayList<MemberVO> selectByName(String name) {
 		ArrayList<MemberVO> memberList	= new ArrayList<MemberVO>();
 		
-		Connection con 				= AccessManager.getConnection();
+		Connection con 				= accessManager.getConnection();
 		PreparedStatement pstmt 	= null;
 		ResultSet rs 				= null;
 		
@@ -96,23 +99,24 @@ public class MemberDAO {
 			e.printStackTrace();
 		}
 		finally {
-			AccessManager.close(con,pstmt,rs);
+			accessManager.close(con,pstmt,rs);
 		}
 		return memberList;
 		
 	}
-//	2.1 특정 회원 목록(번호로 선택하기)
+//	2.2 특정 회원 목록(번호로 선택하기)
+//	이 메소드는 핸드폰 번호(String)을 입력받아 회원번호(int)를 리턴한다.
 	public int selectByPhoneNumber(String phoneNumber) {
-		Connection con 				= AccessManager.getConnection();
+		Connection con 				= accessManager.getConnection();
 		PreparedStatement pstmt 	= null;
 		ResultSet rs 				= null;
 		int member_num = -1;
 		
 		StringBuilder sql			= new StringBuilder();
 		
-		sql.append("select p.member_num							");
-		sql.append("  from phone_info p							"); 
-		sql.append(" where p.phonenumber = ? 					");
+		sql.append("	select p.member_num						");
+		sql.append("      from phone_info p						"); 
+		sql.append("     where p.phonenumber = ? 				");
 		
 		
 		try {
@@ -130,23 +134,23 @@ public class MemberDAO {
 			e.printStackTrace();
 		}
 		finally {
-			AccessManager.close(con,pstmt,rs);
+			accessManager.close(con,pstmt,rs);
 		}
 		return member_num;
 		
 	}
 	
 //	3. 회원 추가
-	
+//	이 메소드는 VO를 파라미터로 입력받아 실행결과인 rowcnt를 리턴한다.
 	public int insertMember(MemberVO member) {
-		Connection con = AccessManager.getConnection();
+		Connection con = accessManager.getConnection();
 		PreparedStatement pstmt = null;
 		int rowcnt = 0;
 		StringBuilder sql= new StringBuilder();
 		
-		sql.append("	insert into phone_info(name, phonenumber");
-		sql.append("	    , address, group_number,member_num)	");
-		sql.append("		values(?,?,?,?,member_num.nextval)	");
+		sql.append("	insert into phone_info(name, phonenumber	");
+		sql.append("	    , address, group_number,member_num)		");
+		sql.append("		values(?,?,?,?,member_num.nextval)		");
 		
 		try {
 			pstmt=con.prepareStatement(sql.toString());
@@ -161,7 +165,7 @@ public class MemberDAO {
 		}catch(SQLException e) {
 			e.printStackTrace();
 		}finally {
-			AccessManager.close(con,pstmt);
+			accessManager.close(con,pstmt);
 		}
 		
 		return rowcnt;
@@ -169,18 +173,18 @@ public class MemberDAO {
 	
 //	4. 회원 수정 메소드
 	public int updateMember(MemberVO member, int member_num) {
-		Connection con			= AccessManager.getConnection();
+		Connection con			= accessManager.getConnection();
 		PreparedStatement pstmt = null;
 		int rowcnt				= 0;
 		StringBuilder sql 		= new StringBuilder();
 		
-		sql.append("update phone_info		");
-		sql.append("   set 					");
-		sql.append("   name = ?				");
-		sql.append(",  phonenumber =?		");
-		sql.append(",  address = ?			");
-		sql.append(",  group_number = ? 		");
-		sql.append("   where member_num = ? 	");
+		sql.append("	          update phone_info	");
+		sql.append("   	             set 			");
+		sql.append("                name = ?		");
+		sql.append(",        phonenumber = ?		");
+		sql.append(",            address = ?		");
+		sql.append(", 		group_number = ? 		");
+		sql.append("    where member_num = ? 		");
 		try {
 			pstmt=con.prepareStatement(sql.toString());
 			pstmt.setString(1, member.getName());
@@ -194,7 +198,7 @@ public class MemberDAO {
 		}catch(SQLException e) {
 			e.printStackTrace();
 		}finally {
-			AccessManager.close(con,pstmt);
+			accessManager.close(con,pstmt);
 		}
 		
 		return rowcnt;
@@ -205,12 +209,12 @@ public class MemberDAO {
 //	5. 회원 삭제 메소드
 	public int deleteMember(int member_num) {
 		
-		Connection con			= AccessManager.getConnection();
+		Connection con			= accessManager.getConnection();
 		PreparedStatement pstmt = null;
 		int rowcnt				= 0;
 		StringBuilder sql 		= new StringBuilder();
 		
-		sql.append("delete from phone_info	");
+		sql.append("delete from phone_info		");
 		sql.append(" where member_num = ? 		");
 		try {
 			pstmt = con.prepareStatement(sql.toString());
@@ -219,7 +223,7 @@ public class MemberDAO {
 		}catch(SQLException e) {
 			e.printStackTrace();
 		}finally {
-			AccessManager.close(con,pstmt);
+			accessManager.close(con,pstmt);
 		}
 		return rowcnt;
 	}
