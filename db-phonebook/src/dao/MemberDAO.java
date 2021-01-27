@@ -70,7 +70,6 @@ public class MemberDAO {
 //	이 메소드는 이름을 입력받아 sql문을 처리한 후 값을 어레이리스트로 보낸다.
 	public ArrayList<MemberVO> selectByName(String name) {
 		memberList	= new ArrayList<MemberVO>();
-		
 		con 	= accessManager.getConnection();
 		pstmt 	= null;
 		rs 		= null;

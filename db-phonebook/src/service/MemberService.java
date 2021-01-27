@@ -10,6 +10,7 @@ import myexception.ExceptionPrintList;
 import myexception.NameInputException;
 import myexception.NoSuchMemberException;
 import myexception.WrongGroupException;
+import myexception.WrongNumberException;
 /**
  * @작성자 :  	편도훈
  * @작성일 : 		2021. 1. 21.
@@ -38,7 +39,7 @@ public class MemberService {
 		controller.memberView.printInsertMemberIntro(number);
 		String name = null;
 		
-//		sql row의update의 값을 저장하는 
+//		sql row의update의 값을 저장하는 rowcnt
 		int rowcnt=0;
 		
 		// 이름을 입력하지 않았을 경우에는 다음과 같은 while문을 반복하게 한다.
@@ -102,14 +103,14 @@ public class MemberService {
 		member.setName(name);
 		member.setPhoneNumber(phoneNumber);
 		member.setAddress(address);
-		
+//		저장된 정보를 1번(추가) insert로 2번(수정)메소드로 보낸다.
 		if(number==1) {
 			rowcnt= insertMember(member);
 		}else if(number==2) {
 			rowcnt= updateMember(member);
 		}
 		controller.memberView.printUpdateMember(rowcnt);
-//		MemberVO object를 리턴한다
+//		
 	}
 	
 //	2. 전체 목록 보기를 선택할 시에 출력되는 출력문
@@ -328,6 +329,56 @@ public class MemberService {
 		}else {
 //			그렇지 않다면 이 반복문을 탈출한다.
 			return false;
+		}
+	}
+//	메인 클래스가 호출하는 메소드
+	public void start(){
+		int selector =0;
+		
+		while(true) {
+			controller.memberView.viewIntro();
+			
+			try {
+				selector =controller.scanner.nextInt();
+			
+			}catch(InputMismatchException e) {
+				exceptionPrintList.InputMistmatchPrint();
+				continue;
+			}finally {
+				controller.scanner.nextLine();
+			}
+			
+			
+			if(selector == 1) {
+//				1번일 경우 멤버를 추가하는 메소드를 호출한다. MemberVO의 값으로 null을 준다.
+				controller.processInsertMember(1, null);
+				
+			}else if(selector == 2){
+//				2번일 경우 전체 멤버를 데리고 온다.
+				controller.selectAll();
+				
+			}else if (selector == 3) {
+//				3번일 경우 수정하는 메소드를 호출한다.
+				controller.updateOrDelete(1);
+				
+			}else if (selector == 4) {
+				// 4번일 경우 멤버를 삭제하는 메소드 호출
+				controller.updateOrDelete(2);
+				
+			}else if (selector == 5) {
+//				5번일 경우 종료한다.
+				controller.memberView.goodBye();
+				controller.scanner.close();
+				return ;
+			}else {
+//				만약 올바른 범위가 아니면 예외를 던지고 출력문을 출력한다.
+				try {
+					throw new WrongNumberException();
+					
+				}catch(WrongNumberException e) {
+					e.print();
+				}
+ 			}
 		}
 	}
 }

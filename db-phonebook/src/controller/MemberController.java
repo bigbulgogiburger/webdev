@@ -1,11 +1,6 @@
 package controller;
 
-import java.util.ArrayList;
-import java.util.InputMismatchException;
 import java.util.Scanner;
-
-import myexception.ExceptionPrintList;
-import myexception.WrongNumberException;
 import service.MemberService;
 import view.MemberView;
 import vo.MemberVO;
@@ -24,9 +19,6 @@ public class MemberController {
 	MemberVO member = new MemberVO();
 	MemberService memberService = null;
 	public MemberView memberView = new MemberView();
-	ArrayList<MemberVO> memberList = new ArrayList<MemberVO>();
-	ExceptionPrintList exceptionPrintList = new ExceptionPrintList();
-	
 	public Scanner scanner = new Scanner(System.in);
 	
 //	1. 추가, 3. 수정 시에 출력되는 메소드
@@ -53,53 +45,8 @@ public class MemberController {
 
 //	메인 클래스가 호출하는 메소드
 	public void start(){
-		int selector =0;
-		
-		while(true) {
-			memberView.viewIntro();
-			
-			try {
-				selector =scanner.nextInt();
-			
-			}catch(InputMismatchException e) {
-				exceptionPrintList.InputMistmatchPrint();
-				continue;
-			}finally {
-				scanner.nextLine();
-			}
-			
-			
-			if(selector == 1) {
-//				1번일 경우 멤버를 추가하는 메소드를 호출한다. MemberVO의 값으로 null을 준다.
-				processInsertMember(1, null);
-				
-			}else if(selector == 2){
-//				2번일 경우 전체 멤버를 데리고 온다.
-				selectAll();
-				
-			}else if (selector == 3) {
-//				3번일 경우 수정하는 메소드를 호출한다.
-				updateOrDelete(1);
-				
-			}else if (selector == 4) {
-				// 4번일 경우 멤버를 삭제하는 메소드 호출
-				updateOrDelete(2);
-				
-			}else if (selector == 5) {
-//				5번일 경우 종료한다.
-				memberView.goodBye();
-				scanner.close();
-				return ;
-			}else {
-//				만약 올바른 범위가 아니면 예외를 던지고 출력문을 출력한다.
-				try {
-					throw new WrongNumberException();
-					
-				}catch(WrongNumberException e) {
-					e.print();
-				}
- 			}
-		}
+		memberService = new  MemberService();
+		memberService.start();
 	}
 
 }
