@@ -4,11 +4,10 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>include02</title>
+<title>Insert title here</title>
 </head>
 <body>
-	<h1>include01.jsp 페이지 입니다.</h1>
-	<jsp:include page="include02.jsp"/>
-	<h1>다시 include01.jsp 페이지입니다.</h1>
+	<h1>include</h1>
+	<%@include file="include01.jsp" %>
 </body>
 </html>
