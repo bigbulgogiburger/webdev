@@ -31,6 +31,7 @@ public class MemberDAO {
 		memberList	= new ArrayList<MemberVO>();
 		
 		con 	= accessManager.getConnection();
+		System.out.println(con);
 		pstmt 	= null;
 		rs 		= null;
 		
@@ -150,6 +151,12 @@ public class MemberDAO {
 //	3. 회원 추가
 //	이 메소드는 VO를 파라미터로 입력받아 실행결과인 rowcnt를 리턴한다.
 	public int insertMember(MemberVO member) {
+		try {
+			Class.forName("oracle.jdbc.driver.OracleDriver");
+		} catch (ClassNotFoundException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
 		con 		= accessManager.getConnection();
 		pstmt 		= null;
 		int rowcnt  = 0;
