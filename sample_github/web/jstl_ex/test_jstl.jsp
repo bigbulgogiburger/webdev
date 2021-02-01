@@ -16,5 +16,31 @@
 
 ${name }
 <br>
+jstl : if 조건식<br>
+
+<c:if test="${1+2==3 }">
+	1 + 2 = 3
+</c:if>
+<c:if test="${1+2!=3 }">
+	1 + 2 != 3
+</c:if>
+
+<br>
+1부터 10까지 출력
+<br>
+<%
+	for(int i =1;i<=10;i++){
+		%>
+		${i }&nbsp;&nbsp;
+		<%
+	}
+%>
+<br>
+
+JSTL을 이용한 반식
+<c:forEach var ="i" begin="1" end="10" step="1">
+	${i } &nbsp;&nbsp;
+</c:forEach>
+<br>
 </body>
 </html>
