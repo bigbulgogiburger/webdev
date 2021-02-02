@@ -8,6 +8,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.websocket.SendResult;
 
 import controller.MemberController;
 import dao.MemberDAO;
@@ -32,12 +33,18 @@ public class restore extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		actionDo(request, response);
+	
 	}
 
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		actionDo(request, response);
+	
+	}
+	private void actionDo(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		request.setCharacterEncoding("utf-8");
 		String name = request.getParameter("name");
 		String phoneNumber = request.getParameter("phoneNumber");
@@ -52,7 +59,6 @@ public class restore extends HttpServlet {
 			out.println("정상적으로 처리되었습니다.");
 		}
 		out.println(name);
-	
 	}
-
+	
 }
