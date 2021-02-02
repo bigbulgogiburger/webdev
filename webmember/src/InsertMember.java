@@ -1,4 +1,4 @@
-package com.bigbang.member;
+
 
 import java.io.IOException;
 import javax.servlet.ServletException;
@@ -21,6 +21,7 @@ public class InsertMember extends HttpServlet {
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String id = request.getParameter("id");
+		
 		System.out.println(id);
 	}
 
