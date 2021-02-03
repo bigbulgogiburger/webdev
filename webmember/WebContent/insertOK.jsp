@@ -7,7 +7,8 @@
 <title>Insert title here</title>
 </head>
 <body>
-${name }님 잘했어요~
-<a href="insertForm.jsp">전화번호부 회원추가</a>
+${name }님이 추가되었습니다.
+<a href="insertForm.jsp">계속 추가하기</a>
+<a href="">목록으로 돌아가기</a>
 </body>
 </html>

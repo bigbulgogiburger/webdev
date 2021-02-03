@@ -31,11 +31,11 @@ public class InsertServlet extends HttpServlet {
 	}
 	
 	private void actionDo(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException  {
-			
+		HttpSession session = request.getSession();	
 		request.setCharacterEncoding("utf-8");
 		ServiceMember service = new ServiceMember();
 		String name = request.getParameter("name");
-		String id = request.getParameter("id");
+		String id = (String)session.getAttribute("id");
 		String phone1 = request.getParameter("phone1");
 		String phone2 = request.getParameter("phone2");
 		String phone3 = request.getParameter("phone3");
