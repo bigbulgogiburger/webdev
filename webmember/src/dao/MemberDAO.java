@@ -3,6 +3,7 @@ package dao;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 
 import vo.JoinVO;
 import vo.MemberVO;
@@ -81,6 +82,43 @@ public class MemberDAO {
 		}
 		
 		return rowcnt;
+	}
+
+	public String searchJoin(String id) {
+		Connection con 			= null;
+		PreparedStatement pstmt = null;
+		StringBuilder query		= new StringBuilder();
+		ResultSet rs = null;
+		
+		String url 		="jdbc:oracle:thin:@localhost:1521:xe";
+		String user 	= "ora_user";
+		String password = "hong";
+		String validpw = null;
+		
+		query.append("	select password from loginfo	");
+		query.append("	where id=?				");
+		
+		try {
+			Class.forName("oracle.jdbc.driver.OracleDriver");
+			con = DriverManager.getConnection(url,user,password);
+			pstmt = con.prepareStatement(query.toString());
+			pstmt.setString(1, id);
+			rs = pstmt.executeQuery();
+			
+			rs.next();
+			validpw = rs.getString("password");
+		} catch (Exception e) {
+			e.printStackTrace();
+		}finally {
+			try {
+				if(pstmt!=null) pstmt.close();
+				if(con!=null) con.close();
+			}catch(Exception e) {
+				e.printStackTrace();
+			}
+		}
+		
+		return validpw;
 	}
 	
 	

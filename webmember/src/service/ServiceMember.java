@@ -18,5 +18,13 @@ public class ServiceMember {
 		rowcnt = memberDAO.insertJoin(join);
 		return rowcnt;
 	}
+	public int searchJoin(String id, String pw) {
+		MemberDAO memberDAO = new MemberDAO();
+		String password = memberDAO.searchJoin(id);
+		if(pw.equals(password)) {
+			return 1;
+		}
+		return 0;
+	}
 
 }

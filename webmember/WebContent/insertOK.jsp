@@ -9,6 +9,5 @@
 <body>
 ${name }님이 추가되었습니다.
 <a href="insertForm.jsp">계속 추가하기</a>
-<a href="">목록으로 돌아가기</a>
 </body>
 </html>
