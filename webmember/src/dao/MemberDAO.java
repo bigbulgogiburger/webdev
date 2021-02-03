@@ -59,7 +59,7 @@ public class MemberDAO {
 		String password = "hong";
 		
 		query.append("	insert into loginfo	");
-		query.append("	values(?,?)			");
+		query.append("	values(?,?,?)			");
 		
 		try {
 			Class.forName("oracle.jdbc.driver.OracleDriver");
@@ -67,6 +67,7 @@ public class MemberDAO {
 			pstmt = con.prepareStatement(query.toString());
 			pstmt.setString(1, join.getId());
 			pstmt.setString(2, join.getPw());
+			pstmt.setString(3, join.getName());
 			rowcnt = pstmt.executeUpdate();
 		} catch (Exception e) {
 			e.printStackTrace();

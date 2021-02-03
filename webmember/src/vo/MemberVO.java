@@ -12,13 +12,14 @@ public class MemberVO {
 	
 
 	
-	public MemberVO(String name, String phone1, String phone2, String phone3, String address, int groupnum) {
+	public MemberVO(String name, String phone1, String phone2, String phone3, String address, int groupnum, String id) {
 		this.name= name;
 		this.phone1=phone1;
 		this.phone2=phone2;
 		this.phone3=phone3;
 		this.address = address;
 		this.groupnum = groupnum;
+		this.id= id;
 	}
 	
 	public MemberVO() {

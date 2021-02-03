@@ -7,6 +7,8 @@
 <title>Insert title here</title>
 </head>
 <body>
-<h1>잘했어요~</h1>
+<% System.out.println(request.getAttribute("name")); %>
+${name }님 잘했어요~
+<a href="insertForm.jsp">전화번호부 회원추가</a>
 </body>
 </html>

@@ -3,11 +3,24 @@ package vo;
 public class JoinVO {
 	private String id;
 	private String pw;
+	private String name;
 	
-	public JoinVO(String id, String pw) {
+	
+
+	public JoinVO(String id, String pw, String name) {
 		this.id=id;
 		this.pw=pw;
+		this.name = name;
 	}
+	
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
 
 	public String getId() {
 		return id;

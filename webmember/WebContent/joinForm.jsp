@@ -7,7 +7,7 @@
 <title>Insert title here</title>
 </head>
 <body>
-	<form action="InsertMember" method="post">
+	<form action="JoinServlet" method="post">
 		이름 : <input type="text" name="name" size="10"/><br/>
 		아이디 : <input type="text" name="id" size="10"/><br/>
 		비밀번호 : <input type="password" name="pw" size="10"/><br/>
