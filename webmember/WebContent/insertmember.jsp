@@ -21,6 +21,8 @@
 		-
 		<input type="text" name="phone3" size="4"/>
 		<br/>
+		주소 : <input type="text" name="address" size="20">
+		<br/>
 		그룹 : <select name="groupnum">
 		<option value="1">가족</option>
 		<option value="2">친구</option>

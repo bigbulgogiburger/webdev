@@ -2,76 +2,95 @@ package vo;
 
 public class MemberVO {
 	private String name;   
-	private String phoneNumber;
-	private String address;   
-	private String group;   
+	private String phone1;
+	private String phone2;
+	private String phone3;
+	private String address;
+	private String id;
+	private int groupnum;   
 	private int memberNum;
+	
 
+	
+	public MemberVO(String name, String phone1, String phone2, String phone3, String address, int groupnum) {
+		this.name= name;
+		this.phone1=phone1;
+		this.phone2=phone2;
+		this.phone3=phone3;
+		this.address = address;
+		this.groupnum = groupnum;
+	}
+	
 	public MemberVO() {
 		
 	}
-	public MemberVO(String name, String phoneNumber, String address, String group) {
-	this.name=name;
-	this.phoneNumber=phoneNumber;
-	this.address=address;
-	this.group=group;
-	}
 
-	// 위의 선언된 변수들의 getter/setter method들
-
-	// name을 리턴하는 메소드
 	public String getName() {
-	return name;
+		return name;
 	}
-	//  name에 값을 대입하는 메소드
+
 	public void setName(String name) {
-	this.name = name;
+		this.name = name;
 	}
-	//  phoneNumber를 리턴하는 메소드
-	public String getPhoneNumber() {
-	return phoneNumber;
+
+	public String getPhone1() {
+		return phone1;
 	}
-	// phoneNumber에 값을 대입하는 메소드
-	public void setPhoneNumber(String phoneNumber) {
-	this.phoneNumber = phoneNumber;
+
+	public void setPhone1(String phone1) {
+		this.phone1 = phone1;
 	}
-	//  address를 리턴하는 메소드
+
+	public String getPhone2() {
+		return phone2;
+	}
+
+	public void setPhone2(String phone2) {
+		this.phone2 = phone2;
+	}
+
+	public String getPhone3() {
+		return phone3;
+	}
+
+	public void setPhone3(String phone3) {
+		this.phone3 = phone3;
+	}
+
 	public String getAddress() {
-	return address;
+		return address;
 	}
-	//  address에 값을 대입하는 메소드
+
 	public void setAddress(String address) {
-	this.address = address;
+		this.address = address;
 	}
-	// group을 리턴하는 메소드
-	public String getGroup() {
-	return group;
+
+	public int getGroupnum() {
+		return groupnum;
 	}
-	// group에 값을 대입하는 메소드
-	public void setGroup(String group) {
-	this.group = group;
+
+	public void setGroupnum(int groupnum) {
+		this.groupnum = groupnum;
 	}
-//	group의 번호(sql group_info table의 group_number)를 리턴하는 메소드
-	public int getGroupNumber() {
-		if(group.equals("가족")) {
-			return 1;
-		}else if(group.equals("친구")) {
-			return 2;
-		}else {
-			return 3;
-		}
-	}
-	@Override
-	public String toString() {
-		return "[이름  : " + name + ", 전화번호  : " + phoneNumber + ", 주소  : " + address + ", 그룹 : " + group
-				+ "]";
-	}
+
 	public int getMemberNum() {
 		return memberNum;
 	}
+
 	public void setMemberNum(int memberNum) {
 		this.memberNum = memberNum;
 	}
+	
+	public String getId() {
+		return id;
+	}
+
+	public void setId(String id) {
+		this.id = id;
+	}
+
+
+	
 	
 	
 }
