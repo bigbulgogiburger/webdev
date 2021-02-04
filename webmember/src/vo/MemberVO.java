@@ -9,9 +9,12 @@ public class MemberVO {
 	private String id;
 	private int groupnum;   
 	private int memberNum;
+	private String groupName;
 	
 
 	
+	
+
 	public MemberVO(String name, String phone1, String phone2, String phone3, String address, int groupnum, String id) {
 		this.name= name;
 		this.phone1=phone1;
@@ -89,7 +92,14 @@ public class MemberVO {
 	public void setId(String id) {
 		this.id = id;
 	}
+	
+	public String getGroupName() {
+		return groupName;
+	}
 
+	public void setGroupName(String groupName) {
+		this.groupName = groupName;
+	}
 
 	
 	

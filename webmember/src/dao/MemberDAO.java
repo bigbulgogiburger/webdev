@@ -4,11 +4,57 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
 
 import vo.JoinVO;
 import vo.MemberVO;
 
 public class MemberDAO {
+	AccessManager accessManager = new AccessManager();
+	
+	public ArrayList<MemberVO> selectAll(String id){
+		ArrayList<MemberVO> memberList	= new ArrayList<MemberVO>();
+		
+		Connection con 	= accessManager.getConnection();
+		PreparedStatement pstmt 	= null;
+		ResultSet rs 		= null;
+		
+		StringBuilder sql		= new StringBuilder();
+		
+		
+		System.out.println(id);
+		sql.append(" 	  select c.name, c.phone1,c.phone2,c.phone3,c.adress,g.group_name	");
+		sql.append("      from contact c, group_info g										");
+		sql.append("      where c.groupnum = g.group_number									");
+		sql.append("      and id=?															");
+		
+		
+		try {
+			pstmt = con.prepareStatement(sql.toString());
+			pstmt.setString(1, id);
+			rs = pstmt.executeQuery();
+			
+			while(rs.next()) {
+				MemberVO member = new MemberVO();
+				member.setName(rs.getString("name"));
+				member.setPhone1(rs.getString("phone1"));
+				member.setPhone2(rs.getString("phone2"));
+				member.setPhone3(rs.getString("phone3"));
+				member.setAddress(rs.getString("adress"));
+				member.setGroupName(rs.getString("group_name"));
+				memberList.add(member);
+			}
+			
+			
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}
+		finally {
+			accessManager.close(con,pstmt,rs);
+		}
+		return memberList;
+	}
 
 	public int insertMember(MemberVO member) {
 		Connection con 			= null;
@@ -84,7 +130,7 @@ public class MemberDAO {
 		return rowcnt;
 	}
 
-	public String searchJoin(String id) {
+	public JoinVO searchJoin(String id) {
 		Connection con 			= null;
 		PreparedStatement pstmt = null;
 		StringBuilder query		= new StringBuilder();
@@ -94,8 +140,10 @@ public class MemberDAO {
 		String user 	= "ora_user";
 		String password = "hong";
 		String validpw = null;
+		String validid = null;
+		String validname = null;
 		
-		query.append("	select password from loginfo	");
+		query.append("	select id,password,username from loginfo	");
 		query.append("	where id=?				");
 		
 		try {
@@ -106,7 +154,9 @@ public class MemberDAO {
 			rs = pstmt.executeQuery();
 			
 			rs.next();
+			validid = rs.getString("id");
 			validpw = rs.getString("password");
+			validname = rs.getString("username");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}finally {
@@ -118,7 +168,7 @@ public class MemberDAO {
 			}
 		}
 		
-		return validpw;
+		return new JoinVO(validid, validpw, validname);
 	}
 	
 	

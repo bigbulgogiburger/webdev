@@ -14,6 +14,6 @@
 	비밀번호 : <input type="text" name="pw" size="10"/>
 	    	<input type="submit" value="로그인"/>
 </form>
-<a href="joinForm.jsp">회원가입</a>
+<a href="JoinServlet">회원가입</a>
 </body>
 </html>

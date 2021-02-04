@@ -1,5 +1,7 @@
 package service;
 
+import java.util.ArrayList;
+
 import dao.MemberDAO;
 import vo.JoinVO;
 import vo.MemberVO;
@@ -18,13 +20,18 @@ public class ServiceMember {
 		rowcnt = memberDAO.insertJoin(join);
 		return rowcnt;
 	}
-	public int searchJoin(String id, String pw) {
+	public String searchJoin(String id, String pw) {
 		MemberDAO memberDAO = new MemberDAO();
-		String password = memberDAO.searchJoin(id);
-		if(pw.equals(password)) {
-			return 1;
+		JoinVO joinVO = memberDAO.searchJoin(id);
+		if(pw.equals(joinVO.getPw())) {
+			return joinVO.getName();
 		}
-		return 0;
+		return null;
+	}
+	public ArrayList<MemberVO> selectAll(String id) {
+		MemberDAO memberDAO = new MemberDAO();
+		ArrayList<MemberVO> memlist = memberDAO.selectAll(id);
+		return memlist;
 	}
 
 }

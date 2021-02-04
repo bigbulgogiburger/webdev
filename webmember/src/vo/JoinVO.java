@@ -5,7 +5,9 @@ public class JoinVO {
 	private String pw;
 	private String name;
 	
-	
+	public JoinVO() {
+		
+	}
 
 	public JoinVO(String id, String pw, String name) {
 		this.id=id;
