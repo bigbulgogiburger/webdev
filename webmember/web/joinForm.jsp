@@ -23,12 +23,6 @@
 		<br/>
 		주소 : <input type="text" name="address" size="20">
 		<br/>
-		그룹 : <select name="groupnum">
-		<option value="1">가족</option>
-		<option value="2">친구</option>
-		<option value="3">기타</option>
-		</select>
-		<br/>
 		<input type="submit" value="추가"/> 
 	</form>
 

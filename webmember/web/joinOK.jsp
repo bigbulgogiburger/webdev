@@ -7,8 +7,7 @@
 <title>Insert title here</title>
 </head>
 <body>
-${name }님 안녕하세요~
-<a href="insertForm.jsp">전화번호부 회원추가</a>
-<a href="SelectAll">전화번호부 목록보기</a>
+${name }님 회원가입이 정상적으로 처리되었습니다.
+<a href="MainServlet">로그인하기</a>
 </body>
 </html>

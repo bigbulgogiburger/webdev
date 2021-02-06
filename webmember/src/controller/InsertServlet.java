@@ -31,8 +31,8 @@ public class InsertServlet extends HttpServlet {
 	}
 	
 	private void actionDo(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException  {
-		HttpSession session = request.getSession();	
 		request.setCharacterEncoding("utf-8");
+		HttpSession session = request.getSession();	
 		ServiceMember service = new ServiceMember();
 		String name = request.getParameter("name");
 		String id = (String)session.getAttribute("id");

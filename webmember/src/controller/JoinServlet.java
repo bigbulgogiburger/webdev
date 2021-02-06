@@ -47,12 +47,8 @@ public class JoinServlet extends HttpServlet {
 		String phone2 = request.getParameter("phone2");
 		String phone3 = request.getParameter("phone3");
 		String address = request.getParameter("address");
-		int groupnum= Integer.parseInt(request.getParameter("groupnum"));
+		int groupnum= 4;
 		request.setAttribute("name", name);
-		HttpSession session = request.getSession();
-		
-		session.setAttribute("id", id);
-		
 		
 		int rowcnt2 = service.insertJoin(new JoinVO(id,pw,name));
 		System.out.println("rowcnt2");
