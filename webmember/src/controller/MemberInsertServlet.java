@@ -15,18 +15,20 @@ import vo.JoinVO;
 import vo.MemberVO;
 
 @WebServlet("/InsertServlet")
-public class InsertServlet extends HttpServlet {
+public class MemberInsertServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
-    public InsertServlet() {
+    public MemberInsertServlet() {
         super();
     }
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		actionDo(request, response);
+		response.sendRedirect("MainServlet");
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		actionDo(request, response);
+	
 		
 	}
 	

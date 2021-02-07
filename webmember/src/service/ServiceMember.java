@@ -33,5 +33,24 @@ public class ServiceMember {
 		ArrayList<MemberVO> memlist = memberDAO.selectAll(id);
 		return memlist;
 	}
+	public MemberVO selectById(String id) {
+		MemberDAO mDao= new MemberDAO();
+		MemberVO member =  mDao.selectById(id);
+		return member;
+	}
+	public int selectByIdPw(String id, String pw) {
+		MemberDAO mDao= new MemberDAO();
+		int count =  mDao.selectByIdPw(id,pw);
+		return count;
+	}
+	public void updateMember(MemberVO member) {
+		MemberDAO mDao= new MemberDAO();
+		mDao.updateMember(member);
+	}
+	public void deleteMember(int memberNum) {
+		MemberDAO mDao= new MemberDAO();
+		mDao.deleteMember(memberNum);
+		
+	}
 
 }
