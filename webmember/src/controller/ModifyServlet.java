@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import service.ServiceMember;
+import vo.JoinVO;
 import vo.MemberVO;
 
 
@@ -54,6 +55,7 @@ public class ModifyServlet extends HttpServlet {
 		String phone2 = request.getParameter("phone2");
 		String phone3 = request.getParameter("phone3");
 		String address = request.getParameter("address");
+		int groupNum = 4;
 		
 //		비밀번호 확인
 		if(pw.equals("")) {
@@ -68,14 +70,21 @@ public class ModifyServlet extends HttpServlet {
 			if(memberNum !=0) {
 //				비밀번호가 정상적으로 입력된 경우=>정상적으로 수정(update).
 				MemberVO mem = new MemberVO();
+				JoinVO join = new JoinVO();
 				mem.setName(name);
 				mem.setId(id);
 				mem.setPhone1(phone1);
 				mem.setPhone2(phone2);
 				mem.setPhone3(phone3);
 				mem.setAddress(address);
+				mem.setGroupnum(groupNum);
 				mem.setMemberNum(memberNum);
+				join.setId(id);
+				join.setPw(pw);
+				join.setName(name);
 				mService.updateMember(mem);
+				mService.updateJoin(join);
+				session.invalidate();
 				response.sendRedirect("MainServlet");
 			}else{
 				

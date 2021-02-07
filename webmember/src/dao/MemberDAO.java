@@ -258,6 +258,54 @@ public class MemberDAO {
 		return memberNum;
 	
 	}
+	
+	/**
+	 * @param memberNum
+	 * @return
+	 */
+	public MemberVO selectByMemberNum(int memberNum) {
+		MemberVO member = new MemberVO();
+		Connection con 			= null;
+		PreparedStatement pstmt = null;
+		StringBuilder query		= new StringBuilder();
+		ResultSet rs = null;
+		
+		String url 		="jdbc:oracle:thin:@localhost:1521:xe";
+		String user 	= "ora_user";
+		String password = "hong";
+		query.append(" 	  select c.name, c.phone1,c.phone2,c.phone3,c.address,g.group_name, c.membernum	");
+		query.append("      from contact c, group_info g										");
+		query.append("      where c.groupnum = g.group_number									");
+		query.append("      and membernum=?															");
+		
+		
+		try {
+			Class.forName("oracle.jdbc.driver.OracleDriver");
+			con = DriverManager.getConnection(url,user,password);
+			pstmt = con.prepareStatement(query.toString());
+			pstmt.setInt(1, memberNum);
+			rs = pstmt.executeQuery();
+			
+			if(rs.next()) {
+				member.setName(rs.getString("name"));
+				member.setPhone1(rs.getString("phone1"));
+				member.setPhone2(rs.getString("phone2"));
+				member.setPhone3(rs.getString("phone3"));
+				member.setAddress(rs.getString("address"));
+				member.setGroupName(rs.getString("group_name"));
+				member.setMemberNum(Integer.parseInt(rs.getString("membernum")));
+			}
+			
+			
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+		finally {
+			accessManager.close(con,pstmt,rs);
+		}
+		
+		return member;
+	}
 
 	public void updateMember(MemberVO member) {
 		Connection con 			= null;
@@ -273,8 +321,8 @@ public class MemberDAO {
 		query.append("       ,phone2 = ?			");
 		query.append("       ,phone3 = ?			");
 		query.append("       ,address = ?		");
+		query.append("       ,groupnum = ?		");
 		query.append("  where membernum = ?  	");
-		
 		try {
 			Class.forName("oracle.jdbc.driver.OracleDriver");
 			con = DriverManager.getConnection(url,user,password);
@@ -284,7 +332,8 @@ public class MemberDAO {
 			pstmt.setString(3, member.getPhone2());
 			pstmt.setString(4, member.getPhone3());
 			pstmt.setString(5, member.getAddress());
-			pstmt.setInt(6, member.getMemberNum());
+			pstmt.setInt(6, member.getGroupnum());
+			pstmt.setInt(7, member.getMemberNum());
 			pstmt.executeUpdate();
 			
 		}catch(Exception e) {
@@ -315,6 +364,72 @@ public class MemberDAO {
 			con = DriverManager.getConnection(url,user,password);
 			pstmt = con.prepareStatement(query.toString());
 			pstmt.setInt(1, memberNum);
+			pstmt.executeUpdate();
+			
+		}catch(Exception e) {
+			e.printStackTrace();
+		}finally {
+			try {
+				if(pstmt!=null) pstmt.close();
+				if(con!=null) con.close();
+			}catch(Exception e) {
+				e.printStackTrace();
+			}
+		}
+	}
+
+	public void selectNameById(String id) {
+		MemberVO member = new MemberVO();
+		Connection con 			= null;
+		PreparedStatement pstmt = null;
+		StringBuilder query		= new StringBuilder();
+		ResultSet rs = null;
+		
+		String url 		="jdbc:oracle:thin:@localhost:1521:xe";
+		String user 	= "ora_user";
+		String password = "hong";
+		query.append(" 	  select username from loginfo where id=?			");
+		
+		
+		try {
+			Class.forName("oracle.jdbc.driver.OracleDriver");
+			con = DriverManager.getConnection(url,user,password);
+			pstmt = con.prepareStatement(query.toString());
+			pstmt.setString(1, id);
+			rs = pstmt.executeQuery();
+			
+			if(rs.next()) {
+				member.setName(rs.getString("username"));
+			}
+			
+			
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+		finally {
+			accessManager.close(con,pstmt,rs);
+		}
+	}
+
+	public void updateJoin(JoinVO join) {
+		Connection con 			= null;
+		PreparedStatement pstmt = null;
+		StringBuilder query = new StringBuilder();
+		String url 		="jdbc:oracle:thin:@localhost:1521:xe";
+		String user 	= "ora_user";
+		String password = "hong";
+		
+		query.append(" update loginfo 					");
+		query.append("    set username = ?					");
+		query.append("  where id = ? and password=?  	");
+		try {
+			Class.forName("oracle.jdbc.driver.OracleDriver");
+			con = DriverManager.getConnection(url,user,password);
+			pstmt = con.prepareStatement(query.toString());
+			System.out.println(join.getName()+" : "+join.getPw()+":"+join.getId());
+			pstmt.setString(1, join.getName());
+			pstmt.setString(2, join.getId());
+			pstmt.setString(3, join.getPw());
 			pstmt.executeUpdate();
 			
 		}catch(Exception e) {

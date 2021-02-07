@@ -52,5 +52,15 @@ public class ServiceMember {
 		mDao.deleteMember(memberNum);
 		
 	}
+	public MemberVO selectByMemberNum(int memberNum) {
+		MemberDAO mDao = new MemberDAO();
+		MemberVO member = mDao.selectByMemberNum(memberNum);
+		return member;
+	}
+	
+	public void updateJoin(JoinVO join) {
+		MemberDAO mDao = new MemberDAO();
+		mDao.updateJoin(join);
+	}
 
 }

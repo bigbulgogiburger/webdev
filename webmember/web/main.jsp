@@ -15,12 +15,13 @@
 <a href="MemberInsertServlet">연락처추가</a>
 <table border="1">
 	<tr>
-		<th>이름</th><th>연락처</th><th>성별</th><th>수정</th><th>삭제</th>
+		<th>이름</th><th>연락처</th><th>주소</th><th>그룹</th><th>수정</th><th>삭제</th>
 	</tr>
 	<c:forEach items="${members }" var="member">
 	<tr>
 		<td>${member.name }</td>
 		<td>${member.phone1 } - ${member.phone2 } - ${member.phone3 }</td>
+		<td>${member.address }</td>
 		<td>${member.groupName }</td>
 		<td><a href="MemberModifyServlet?memberNum=${member.memberNum }">수정</a></td>
 		<td><a href="DeleteServlet?memberNum=${member.memberNum }">삭제</a></td>
