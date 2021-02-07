@@ -11,10 +11,10 @@ import javax.servlet.http.HttpServletResponse;
  * Servlet implementation class MemberModify
  */
 @WebServlet("/MemberModify")
-public class MemberModify extends HttpServlet {
+public class MemberModifyServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
-    public MemberModify() {
+    public MemberModifyServlet() {
         super();
     }
 

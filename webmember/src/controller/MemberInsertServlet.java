@@ -14,7 +14,7 @@ import service.ServiceMember;
 import vo.JoinVO;
 import vo.MemberVO;
 
-@WebServlet("/InsertServlet")
+@WebServlet("/MemberInsertServlet")
 public class MemberInsertServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
@@ -23,12 +23,12 @@ public class MemberInsertServlet extends HttpServlet {
     }
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		actionDo(request, response);
-		response.sendRedirect("MainServlet");
+		response.sendRedirect("insertForm.jsp");
+		
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-	
+		actionDo(request, response);
 		
 	}
 	
@@ -46,11 +46,10 @@ public class MemberInsertServlet extends HttpServlet {
 		request.setAttribute("name", name);
 		
 		int rowcnt1 = service.insertMember(new MemberVO(name,phone1,phone2,phone3,address,groupnum,id));
-		System.out.println("rowcnt1");
+		System.out.println(rowcnt1);
 						
 		if(rowcnt1==1) {
-		RequestDispatcher disp = request.getRequestDispatcher("insertOK.jsp");
-		disp.forward(request, response);
+		response.sendRedirect("MainServlet");
 			
 				
 			}
