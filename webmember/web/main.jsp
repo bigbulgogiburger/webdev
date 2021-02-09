@@ -12,7 +12,11 @@
 <h3>${name }님의 회원목록</h3>
 <a href="LogoutServlet">로그아웃</a>
 <a href="ModifyServlet">정보수정</a>
-<a href="MemberInsertServlet">연락처추가</a>
+<a href="MemberInsertServlet">연락처추가</a><br/>
+<form action="SelectByMemberNameServlet">
+찾을 이름 :<input type="text" name="memberName" size="10" />
+<input type="submit" value="찾기">
+</form>
 <table border="1">
 	<tr>
 		<th>이름</th><th>연락처</th><th>주소</th><th>그룹</th><th>수정</th><th>삭제</th>

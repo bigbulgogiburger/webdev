@@ -1,6 +1,8 @@
 package controller;
 
 import java.io.IOException;
+
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -40,15 +42,31 @@ public class LoginServlet extends HttpServlet {
 		request.setCharacterEncoding("utf-8");
 		String id = request.getParameter("id");
 		String pw = request.getParameter("pw");
-		HttpSession session = request.getSession();
-		String name = serviceMember.searchJoin(id,pw);
-		if(name !=null) {
-			session.setAttribute("id", id);
-			session.setAttribute("name",name);
-			response.sendRedirect("MainServlet");
+		if(id.equals("")) {
+			request.setAttribute("idMsg", "아이디를 입력하지 않으셨습니다.");
+			RequestDispatcher disp = request.getRequestDispatcher("loginForm.jsp");
+			disp.forward(request, response);
+			System.out.println("1414");
+		}else if(pw.equals("")){
+			request.setAttribute("pwMsg", "패스워드를 입력하지 않으셨습니다.");
+			RequestDispatcher disp = request.getRequestDispatcher("loginForm.jsp");
+			disp.forward(request, response);
 		}else {
-			response.sendRedirect("loginForm.jsp");
+			HttpSession session = request.getSession();
+			String name = serviceMember.searchJoin(id,pw);
+			if(name !=null) {
+				session.setAttribute("id", id);
+				session.setAttribute("name",name);
+				response.sendRedirect("MainServlet");
+			}else {
+				request.setAttribute("idMsg", "아이디나 비밀번호가 틀렸습니다.");
+				request.setAttribute("pwMsg", "아이디나 비밀번호가 틀렸습니다.");
+				RequestDispatcher disp = request.getRequestDispatcher("loginForm.jsp");
+				disp.forward(request, response);
+			}
 		}
+
+		
 	}
 
 }

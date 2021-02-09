@@ -16,6 +16,14 @@ import java.sql.SQLException;
  * @description :DAO에서 자주 사용하는 커넥션과 클로즈를 담고 있는 클래스. DAO에서만 꺼내서 사용한다.
  */
 public class AccessManager {
+	private static AccessManager accessManager = new AccessManager();
+	private AccessManager() {
+		
+	}
+	
+	public static AccessManager getInstance() {
+		return accessManager;
+	}
 	
 	public Connection getConnection() {
 		Connection con= null;

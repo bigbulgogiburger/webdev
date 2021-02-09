@@ -10,8 +10,8 @@
 
 <form action="LoginServlet" method="post">
 
-	아이디 :  <input type="text" name="id" size="10"/>
-	비밀번호 : <input type="text" name="pw" size="10"/>
+	아이디 :  <input type="text" name="id" size="10"/>${idMsg }<br/>
+	비밀번호 : <input type="password" name="pw" size="10"/>${pwMsg }<br/>
 	    	<input type="submit" value="로그인"/>
 </form>
 <a href="JoinServlet">회원가입</a>

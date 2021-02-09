@@ -4,6 +4,11 @@ public class JoinVO {
 	private String id;
 	private String pw;
 	private String name;
+	private String idMsg;
+	private String pwMsg;
+	
+
+	private String nameMsg;
 	
 	public JoinVO() {
 		
@@ -39,6 +44,28 @@ public class JoinVO {
 	public void setPw(String pw) {
 		this.pw = pw;
 	}
-	
+	public String getIdMsg() {
+		return idMsg;
+	}
+
+	public void setIdMsg(String idMsg) {
+		this.idMsg = idMsg;
+	}
+
+	public String getPwMsg() {
+		return pwMsg;
+	}
+
+	public void setPwMsg(String pwMsg) {
+		this.pwMsg = pwMsg;
+	}
+
+	public String getNameMsg() {
+		return nameMsg;
+	}
+
+	public void setNameMsg(String nameMsg) {
+		this.nameMsg = nameMsg;
+	}
 	
 }

@@ -62,5 +62,9 @@ public class ServiceMember {
 		MemberDAO mDao = new MemberDAO();
 		mDao.updateJoin(join);
 	}
+	public ArrayList<MemberVO> selectByNameId(String memberName, String id) {
+		ArrayList<MemberVO> memList = new MemberDAO().selectByNameId(memberName, id); 
+		return memList;
+	}
 
 }

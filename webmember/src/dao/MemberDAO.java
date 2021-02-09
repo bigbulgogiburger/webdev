@@ -11,7 +11,7 @@ import vo.JoinVO;
 import vo.MemberVO;
 
 public class MemberDAO {
-	AccessManager accessManager = new AccessManager();
+	AccessManager accessManager = AccessManager.getInstance();
 	
 	public ArrayList<MemberVO> selectAll(String id){
 		ArrayList<MemberVO> memberList	= new ArrayList<MemberVO>();
@@ -24,7 +24,7 @@ public class MemberDAO {
 		
 		
 		System.out.println(id);
-		sql.append(" 	  select c.name, c.phone1,c.phone2,c.phone3,c.address,g.group_name, c.membernum	");
+		sql.append(" 	  select c.name, c.phonenumber,c.address,g.group_name, c.membernum	");
 		sql.append("      from contact c, group_info g										");
 		sql.append("      where c.groupnum = g.group_number									");
 		sql.append("      and id=?															");
@@ -39,9 +39,10 @@ public class MemberDAO {
 			while(rs.next()) {
 				MemberVO member = new MemberVO();
 				member.setName(rs.getString("name"));
-				member.setPhone1(rs.getString("phone1"));
-				member.setPhone2(rs.getString("phone2"));
-				member.setPhone3(rs.getString("phone3"));
+				String phoneNumber = rs.getString("phonenumber");
+				member.setPhone1(phoneNumber.substring(0, 3));
+				member.setPhone2(phoneNumber.substring(3, 7));
+				member.setPhone3(phoneNumber.substring(7));
 				member.setAddress(rs.getString("address"));
 				member.setGroupName(rs.getString("group_name"));
 				member.setMemberNum(Integer.parseInt(rs.getString("membernum")));
@@ -63,35 +64,25 @@ public class MemberDAO {
 		PreparedStatement pstmt = null;
 		StringBuilder query = new StringBuilder();
 		int rowcnt =0;
-		String url 		="jdbc:oracle:thin:@localhost:1521:xe";
-		String user 	= "ora_user";
-		String password = "hong";
-		
+
 		query.append("	insert into contact			 		 ");
-		query.append("	values(numseq.nextval,?,?,?,?,?,?,?) ");
+		query.append("	values(numseq.nextval,?,?,?,?,?) ");
 		
 		try {
 			Class.forName("oracle.jdbc.driver.OracleDriver");
-			con = DriverManager.getConnection(url,user,password);
+			con = accessManager.getConnection();
 			pstmt = con.prepareStatement(query.toString());
 			pstmt.setString(1, member.getName());
-			pstmt.setString(2, member.getPhone1());
-			pstmt.setString(3, member.getPhone2());
-			pstmt.setString(4, member.getPhone3());
-			pstmt.setString(5, member.getAddress());
-			pstmt.setInt(6, member.getGroupnum());
-			pstmt.setString(7, member.getId());
+			pstmt.setString(2, member.getPhone1()+member.getPhone2()+member.getPhone3());
+			pstmt.setString(3, member.getAddress());
+			pstmt.setInt(4, member.getGroupnum());
+			pstmt.setString(5, member.getId());
 			rowcnt= pstmt.executeUpdate();
 			
 		}catch(Exception e) {
 			e.printStackTrace();
 		}finally {
-			try {
-				if(pstmt!=null) pstmt.close();
-				if(con!=null) con.close();
-			}catch(Exception e) {
-				e.printStackTrace();
-			}
+			accessManager.close(con, pstmt);
 		}
 		
 		return rowcnt;
@@ -101,18 +92,14 @@ public class MemberDAO {
 		
 		Connection con 			= null;
 		PreparedStatement pstmt = null;
-		StringBuilder query		= new StringBuilder();
-		int rowcnt 				= 0;
-		String url 		="jdbc:oracle:thin:@localhost:1521:xe";
-		String user 	= "ora_user";
-		String password = "hong";
-		
+		StringBuilder query = new StringBuilder();
+		int rowcnt=0;
 		query.append("	insert into loginfo	");
 		query.append("	values(?,?,?)			");
 		
 		try {
 			Class.forName("oracle.jdbc.driver.OracleDriver");
-			con = DriverManager.getConnection(url,user,password);
+			con = accessManager.getConnection();
 			pstmt = con.prepareStatement(query.toString());
 			pstmt.setString(1, join.getId());
 			pstmt.setString(2, join.getPw());
@@ -121,12 +108,7 @@ public class MemberDAO {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}finally {
-			try {
-				if(pstmt!=null) pstmt.close();
-				if(con!=null) con.close();
-			}catch(Exception e) {
-				e.printStackTrace();
-			}
+			accessManager.close(con, pstmt);
 		}
 		
 		return rowcnt;
@@ -138,9 +120,6 @@ public class MemberDAO {
 		StringBuilder query		= new StringBuilder();
 		ResultSet rs = null;
 		
-		String url 		="jdbc:oracle:thin:@localhost:1521:xe";
-		String user 	= "ora_user";
-		String password = "hong";
 		String validpw = null;
 		String validid = null;
 		String validname = null;
@@ -150,24 +129,21 @@ public class MemberDAO {
 		
 		try {
 			Class.forName("oracle.jdbc.driver.OracleDriver");
-			con = DriverManager.getConnection(url,user,password);
+			con = accessManager.getConnection();
 			pstmt = con.prepareStatement(query.toString());
 			pstmt.setString(1, id);
 			rs = pstmt.executeQuery();
 			
-			rs.next();
-			validid = rs.getString("id");
-			validpw = rs.getString("password");
-			validname = rs.getString("username");
+			if(rs.next()) {
+				validid = rs.getString("id");
+				validpw = rs.getString("password");
+				validname = rs.getString("username");
+			}
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		}finally {
-			try {
-				if(pstmt!=null) pstmt.close();
-				if(con!=null) con.close();
-			}catch(Exception e) {
-				e.printStackTrace();
-			}
+			accessManager.close(con, pstmt, rs);
 		}
 		
 		return new JoinVO(validid, validpw, validname);
@@ -179,37 +155,30 @@ public class MemberDAO {
 		PreparedStatement pstmt = null;
 		StringBuilder query		= new StringBuilder();
 		ResultSet rs = null;
+
 		
-		String url 		="jdbc:oracle:thin:@localhost:1521:xe";
-		String user 	= "ora_user";
-		String password = "hong";
-		
-		query.append(" select name, phone1,phone2,phone3,address,id	");
+		query.append(" select name, phonenumber,address,id	");
 		query.append(" from contact where id=? and groupnum= 4  	");
 		
 		try {
 			Class.forName("oracle.jdbc.driver.OracleDriver");
-			con = DriverManager.getConnection(url,user,password);
+			con = accessManager.getConnection();
 			pstmt = con.prepareStatement(query.toString());
 			pstmt.setString(1, id);
 			rs = pstmt.executeQuery();
 			
 			if(rs.next()) {
 				member.setName(rs.getString("name"));
-				member.setPhone1(rs.getString("phone1"));
-				member.setPhone2(rs.getString("phone2"));
-				member.setPhone3(rs.getString("phone3"));
+				String phoneNumber = rs.getString("phonenumber");
+				member.setPhone1(phoneNumber.substring(0, 3));
+				member.setPhone2(phoneNumber.substring(3, 7));
+				member.setPhone3(phoneNumber.substring(7));
 				member.setAddress(rs.getString("address"));
 			}
 		}catch(Exception e) {
 			e.printStackTrace();
 		}finally {
-			try {
-				if(pstmt!=null) pstmt.close();
-				if(con!=null) con.close();
-			}catch(Exception e) {
-				e.printStackTrace();
-			}
+			accessManager.close(con, pstmt, rs);
 		}
 		return member;
 	}
@@ -221,9 +190,7 @@ public class MemberDAO {
 		int memberNum = 0;
 		ResultSet rs = null;
 		
-		String url 		="jdbc:oracle:thin:@localhost:1521:xe";
-		String user 	= "ora_user";
-		String password = "hong";
+
 		
 		query.append(" select c.membernum 						");
 		query.append("   from contact c inner join loginfo l	");
@@ -231,11 +198,11 @@ public class MemberDAO {
 		query.append("   where c.groupnum=4						");
 		query.append("   and l.id=?								");
 		query.append("   and l.password=?						");
-		;
+		
 		
 		try {
 			Class.forName("oracle.jdbc.driver.OracleDriver");
-			con = DriverManager.getConnection(url,user,password);
+			con =accessManager.getConnection();
 			pstmt = con.prepareStatement(query.toString());
 			pstmt.setString(1, id);
 			pstmt.setString(2, pw);
@@ -248,12 +215,8 @@ public class MemberDAO {
 		}catch(Exception e) {
 			e.printStackTrace();
 		}finally {
-			try {
-				if(pstmt!=null) pstmt.close();
-				if(con!=null) con.close();
-			}catch(Exception e) {
-				e.printStackTrace();
-			}
+			accessManager.close(con, pstmt, rs);
+		
 		}
 		return memberNum;
 	
@@ -269,28 +232,26 @@ public class MemberDAO {
 		PreparedStatement pstmt = null;
 		StringBuilder query		= new StringBuilder();
 		ResultSet rs = null;
-		
-		String url 		="jdbc:oracle:thin:@localhost:1521:xe";
-		String user 	= "ora_user";
-		String password = "hong";
-		query.append(" 	  select c.name, c.phone1,c.phone2,c.phone3,c.address,g.group_name, c.membernum	");
-		query.append("      from contact c, group_info g										");
-		query.append("      where c.groupnum = g.group_number									");
+
+		query.append(" 	  select c.name, c.phonenumber,c.address,g.group_name, c.membernum			");
+		query.append("      from contact c, group_info g											");
+		query.append("      where c.groupnum = g.group_number										");
 		query.append("      and membernum=?															");
 		
 		
 		try {
 			Class.forName("oracle.jdbc.driver.OracleDriver");
-			con = DriverManager.getConnection(url,user,password);
+			con = accessManager.getConnection();
 			pstmt = con.prepareStatement(query.toString());
 			pstmt.setInt(1, memberNum);
 			rs = pstmt.executeQuery();
 			
 			if(rs.next()) {
 				member.setName(rs.getString("name"));
-				member.setPhone1(rs.getString("phone1"));
-				member.setPhone2(rs.getString("phone2"));
-				member.setPhone3(rs.getString("phone3"));
+				String phoneNumber = rs.getString("phonenumber");
+				member.setPhone1(phoneNumber.substring(0, 3));
+				member.setPhone2(phoneNumber.substring(3, 7));
+				member.setPhone3(phoneNumber.substring(7));
 				member.setAddress(rs.getString("address"));
 				member.setGroupName(rs.getString("group_name"));
 				member.setMemberNum(Integer.parseInt(rs.getString("membernum")));
@@ -317,9 +278,7 @@ public class MemberDAO {
 		
 		query.append(" update contact 			");
 		query.append("    set name = ?			");
-		query.append("   	 ,phone1 = ?			");
-		query.append("       ,phone2 = ?			");
-		query.append("       ,phone3 = ?			");
+		query.append("   	 ,phonenumber = ?			");
 		query.append("       ,address = ?		");
 		query.append("       ,groupnum = ?		");
 		query.append("  where membernum = ?  	");
@@ -328,12 +287,10 @@ public class MemberDAO {
 			con = DriverManager.getConnection(url,user,password);
 			pstmt = con.prepareStatement(query.toString());
 			pstmt.setString(1, member.getName());
-			pstmt.setString(2, member.getPhone1());
-			pstmt.setString(3, member.getPhone2());
-			pstmt.setString(4, member.getPhone3());
-			pstmt.setString(5, member.getAddress());
-			pstmt.setInt(6, member.getGroupnum());
-			pstmt.setInt(7, member.getMemberNum());
+			pstmt.setString(2, member.getPhone1()+member.getPhone2()+member.getPhone3());
+			pstmt.setString(3, member.getAddress());
+			pstmt.setInt(4, member.getGroupnum());
+			pstmt.setInt(5, member.getMemberNum());
 			pstmt.executeUpdate();
 			
 		}catch(Exception e) {
@@ -352,16 +309,14 @@ public class MemberDAO {
 		Connection con 			= null;
 		PreparedStatement pstmt = null;
 		StringBuilder query = new StringBuilder();
-		String url 		="jdbc:oracle:thin:@localhost:1521:xe";
-		String user 	= "ora_user";
-		String password = "hong";
+		
 		System.out.println("회원번호 :"+ memberNum);
 		query.append(" delete contact 			");
 		query.append("  where membernum = ?  	");
 		
 		try {
 			Class.forName("oracle.jdbc.driver.OracleDriver");
-			con = DriverManager.getConnection(url,user,password);
+			con = accessManager.getConnection();
 			pstmt = con.prepareStatement(query.toString());
 			pstmt.setInt(1, memberNum);
 			pstmt.executeUpdate();
@@ -369,12 +324,7 @@ public class MemberDAO {
 		}catch(Exception e) {
 			e.printStackTrace();
 		}finally {
-			try {
-				if(pstmt!=null) pstmt.close();
-				if(con!=null) con.close();
-			}catch(Exception e) {
-				e.printStackTrace();
-			}
+			accessManager.close(con, pstmt);
 		}
 	}
 
@@ -384,16 +334,13 @@ public class MemberDAO {
 		PreparedStatement pstmt = null;
 		StringBuilder query		= new StringBuilder();
 		ResultSet rs = null;
-		
-		String url 		="jdbc:oracle:thin:@localhost:1521:xe";
-		String user 	= "ora_user";
-		String password = "hong";
+
 		query.append(" 	  select username from loginfo where id=?			");
 		
 		
 		try {
 			Class.forName("oracle.jdbc.driver.OracleDriver");
-			con = DriverManager.getConnection(url,user,password);
+			con = accessManager.getConnection();
 			pstmt = con.prepareStatement(query.toString());
 			pstmt.setString(1, id);
 			rs = pstmt.executeQuery();
@@ -415,16 +362,14 @@ public class MemberDAO {
 		Connection con 			= null;
 		PreparedStatement pstmt = null;
 		StringBuilder query = new StringBuilder();
-		String url 		="jdbc:oracle:thin:@localhost:1521:xe";
-		String user 	= "ora_user";
-		String password = "hong";
+
 		
 		query.append(" update loginfo 					");
 		query.append("    set username = ?					");
 		query.append("  where id = ? and password=?  	");
 		try {
 			Class.forName("oracle.jdbc.driver.OracleDriver");
-			con = DriverManager.getConnection(url,user,password);
+			con = accessManager.getConnection();
 			pstmt = con.prepareStatement(query.toString());
 			System.out.println(join.getName()+" : "+join.getPw()+":"+join.getId());
 			pstmt.setString(1, join.getName());
@@ -435,13 +380,13 @@ public class MemberDAO {
 		}catch(Exception e) {
 			e.printStackTrace();
 		}finally {
-			try {
-				if(pstmt!=null) pstmt.close();
-				if(con!=null) con.close();
-			}catch(Exception e) {
-				e.printStackTrace();
-			}
+			accessManager.close(con, pstmt);
 		}
+	}
+
+	public ArrayList<MemberVO> selectByNameId(String memberName, String id) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 	
 	

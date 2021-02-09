@@ -10,6 +10,10 @@ public class MemberVO {
 	private int groupnum;   
 	private int memberNum;
 	private String groupName;
+	private String nameMsg;
+	private String phoneMsg;
+	private String idMsg;
+	
 	
 
 	
@@ -99,6 +103,30 @@ public class MemberVO {
 
 	public void setGroupName(String groupName) {
 		this.groupName = groupName;
+	}
+	
+	public String getNameMsg() {
+		return nameMsg;
+	}
+
+	public void setNameMsg(String nameMsg) {
+		this.nameMsg = nameMsg;
+	}
+
+	public String getPhoneMsg() {
+		return phoneMsg;
+	}
+
+	public void setPhoneMsg(String phoneMsg) {
+		this.phoneMsg = phoneMsg;
+	}
+
+	public String getIdMsg() {
+		return idMsg;
+	}
+
+	public void setIdMsg(String idMsg) {
+		this.idMsg = idMsg;
 	}
 
 	
