@@ -3,6 +3,7 @@ package controller;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -29,14 +30,36 @@ public class SelectByMemberNameServlet extends HttpServlet {
 		HttpSession session = request.getSession();
 		String name = (String)session.getAttribute("name");
 		String id = (String)session.getAttribute("id");
-		String memberName = request.getParameter("memberName");
+		String category = request.getParameter("category");
+		String value = request.getParameter("value");
 		if(name==null || id==null) {
 //			로그인 하지 않은 사용자인 경우.
 //			get방식으로 전달
 			response.sendRedirect("LoginServlet");
 		}else {
-			ServiceMember sMember= new ServiceMember();
-			ArrayList<MemberVO> memList = sMember.selectByNameId(memberName,id);
+			if(value.equals("")) {
+				String resultMsg="내용을 한글자 이상 입력해주세요";
+				request.setAttribute("resultMsg", resultMsg);
+				RequestDispatcher disp = request.getRequestDispatcher("main.jsp");
+				disp.forward(request, response);
+			}else {
+				ServiceMember sMember= new ServiceMember();
+				ArrayList<MemberVO> members = sMember.selectByNameId(category,value,id);
+				if(members.size()==0) {
+					String resultMsg="해당하는 회원이 없습니다.";
+					request.setAttribute("resultMsg", resultMsg);
+					RequestDispatcher disp = request.getRequestDispatcher("main.jsp");
+					disp.forward(request, response);
+				}else {
+					request.setAttribute("members", members);
+//					2.2 main.jsp로 포워딩
+					RequestDispatcher disp = request.getRequestDispatcher("main.jsp");
+					disp.forward(request, response);
+				}
+			}
+			
+			
+			
 		}
 			
 	}

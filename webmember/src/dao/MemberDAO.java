@@ -384,9 +384,126 @@ public class MemberDAO {
 		}
 	}
 
-	public ArrayList<MemberVO> selectByNameId(String memberName, String id) {
-		// TODO Auto-generated method stub
-		return null;
+	public ArrayList<MemberVO> selectByNameId(String category, String value, String id) {
+		ArrayList<MemberVO> memberList	= new ArrayList<MemberVO>();
+		
+		Connection con 	= accessManager.getConnection();
+		PreparedStatement pstmt 	= null;
+		ResultSet rs 		= null;
+		
+		StringBuilder sql		= new StringBuilder();
+		
+		
+		System.out.println(id);
+		sql.append(" 	  select c.name, c.phonenumber,c.address,g.group_name, c.membernum	");
+		sql.append("      from contact c, group_info g										");
+		sql.append("      where c.groupnum = g.group_number									");
+		sql.append("      and id=? and 														");
+		sql.append(category);
+		sql.append(" 	  like ?															");
+		sql.append(" 	  and groupnum<4													");
+		
+		
+		try {
+			Class.forName("oracle.jdbc.driver.OracleDriver");
+			pstmt = con.prepareStatement(sql.toString());
+			pstmt.setString(1, id);
+			pstmt.setString(2, "%"+value+"%");
+			rs = pstmt.executeQuery();
+			
+			while(rs.next()) {
+				MemberVO member = new MemberVO();
+				member.setName(rs.getString("name"));
+				String phoneNumber = rs.getString("phonenumber");
+				member.setPhone1(phoneNumber.substring(0, 3));
+				member.setPhone2(phoneNumber.substring(3, 7));
+				member.setPhone3(phoneNumber.substring(7));
+				member.setAddress(rs.getString("address"));
+				member.setGroupName(rs.getString("group_name"));
+				member.setMemberNum(Integer.parseInt(rs.getString("membernum")));
+				memberList.add(member);
+			}
+			
+			
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+		finally {
+			accessManager.close(con,pstmt,rs);
+		}
+		return memberList;
+	}
+
+	public boolean idChecker(String id) {
+		Connection con 	= null;
+		PreparedStatement pstmt 	= null;
+		ResultSet rs 		= null;
+		boolean check = true;
+		
+		StringBuilder sql		= new StringBuilder();
+		
+		
+		System.out.println(id);
+		sql.append(" 	  select id from loginfo	");
+		sql.append(" 	  where id =?				");
+		
+		
+		try {
+			Class.forName("oracle.jdbc.driver.OracleDriver");
+			con = accessManager.getConnection();
+			pstmt = con.prepareStatement(sql.toString());
+			pstmt.setString(1, id);
+			rs = pstmt.executeQuery();
+			
+			if(rs.next()) {
+				check=true;
+			}else {
+				check=false;
+			}
+			
+			
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+		finally {
+			accessManager.close(con,pstmt,rs);
+		}
+		return check;
+	}
+
+	public int selectByPhoneNumber(String phoneNumber) {
+		Connection con 	= null;
+		PreparedStatement pstmt 	= null;
+		ResultSet rs 		= null;
+		int membernum =-1;
+		
+		StringBuilder sql		= new StringBuilder();
+		
+		
+		sql.append(" 	  select membernum from contact	");
+		sql.append(" 	  where phonenumber =?				");
+		
+		
+		try {
+			Class.forName("oracle.jdbc.driver.OracleDriver");
+			con = accessManager.getConnection();
+			pstmt = con.prepareStatement(sql.toString());
+			pstmt.setString(1, phoneNumber);
+			rs = pstmt.executeQuery();
+			
+			if(rs.next()) {
+				membernum = rs.getInt("membernum");
+			}
+			
+			
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+		finally {
+			accessManager.close(con,pstmt,rs);
+		}
+		return membernum;
+
 	}
 	
 	

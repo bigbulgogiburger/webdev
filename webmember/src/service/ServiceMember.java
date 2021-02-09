@@ -62,9 +62,20 @@ public class ServiceMember {
 		MemberDAO mDao = new MemberDAO();
 		mDao.updateJoin(join);
 	}
-	public ArrayList<MemberVO> selectByNameId(String memberName, String id) {
-		ArrayList<MemberVO> memList = new MemberDAO().selectByNameId(memberName, id); 
+	public ArrayList<MemberVO> selectByNameId(String category, String memberName, String id) {
+		ArrayList<MemberVO> memList = new MemberDAO().selectByNameId(category,memberName, id); 
 		return memList;
+	}
+	public boolean idChecker(String id) {
+		MemberDAO mDao = new MemberDAO();
+		
+		boolean check = mDao.idChecker(id);
+		return check;
+	}
+	public int selectByPhoneNumber(String phoneNumber) {
+		MemberDAO mDao = new MemberDAO();
+		int membernum = mDao.selectByPhoneNumber(phoneNumber);
+		return membernum;
 	}
 
 }

@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import myexception.ExceptionPrintList;
 import service.ServiceMember;
 import vo.JoinVO;
 import vo.MemberVO;
@@ -28,7 +29,16 @@ public class MemberInsertServlet extends HttpServlet {
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		actionDo(request, response);
+//		session =>id 추출
+		HttpSession session = request.getSession();
+		String id = (String)session.getAttribute("id");
+		if(id==null) {
+//			로그인이 안된상태 =>MainServlet으로 보낸다.=> loginForm.jsp
+				response.sendRedirect("MainServlet");
+		}else {
+			actionDo(request, response);
+		}
+
 		
 	}
 	
@@ -43,7 +53,36 @@ public class MemberInsertServlet extends HttpServlet {
 		String phone3 = request.getParameter("phone3");
 		String address = request.getParameter("address");
 		int groupnum= Integer.parseInt(request.getParameter("groupnum"));
+		
+		MemberVO member= new MemberVO(name,phone1,phone2,phone3,address,groupnum,id);
+		ExceptionPrintList exception = new ExceptionPrintList();
+		
+		
 		request.setAttribute("name", name);
+		if(name.equals("")) {
+			request.setAttribute("member", member);
+			request.setAttribute("nameMsg", "이름을 입력해주세요");
+			RequestDispatcher disp = request.getRequestDispatcher("insertForm.jsp");
+			disp.forward(request, response);
+		}else {
+			String phonenumber = phone1+phone2+phone3; 
+			if(exception.isAlreadyStored(phonenumber, member)) {
+				request.setAttribute("member", member);
+				request.setAttribute("phoneMsg", "이미 저장된 번호입니다.");
+				RequestDispatcher disp = request.getRequestDispatcher("insertForm.jsp");
+				disp.forward(request, response);
+			}else if(exception.isNotNumber(phonenumber)) {
+				request.setAttribute("member", member);
+				request.setAttribute("phoneMsg", "올바른 숫자를 입력해주세요");
+				RequestDispatcher disp = request.getRequestDispatcher("insertForm.jsp");
+				disp.forward(request, response);
+			}else if(exception.isNotCorrectNumber(phonenumber)) {
+				request.setAttribute("member", member);
+				request.setAttribute("phoneMsg", "11자리의 숫자를 입력해주세요");
+				RequestDispatcher disp = request.getRequestDispatcher("insertForm.jsp");
+				disp.forward(request, response);
+			}else {
+		
 		
 		int rowcnt1 = service.insertMember(new MemberVO(name,phone1,phone2,phone3,address,groupnum,id));
 		System.out.println(rowcnt1);
@@ -52,7 +91,9 @@ public class MemberInsertServlet extends HttpServlet {
 		response.sendRedirect("MainServlet");
 			
 				
-			}
+		}
 	}
 
+}
+	}
 }

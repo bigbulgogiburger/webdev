@@ -27,7 +27,7 @@ public class ModifyServlet extends HttpServlet {
 //		session =>id 추출
 		HttpSession session = request.getSession();
 		String id = (String)session.getAttribute("id");
-		if(id.equals("")) {
+		if(id==null) {
 //		로그인이 안된상태 =>MainServlet으로 보낸다.=> loginForm.jsp
 			response.sendRedirect("MainServlet");
 		}else {

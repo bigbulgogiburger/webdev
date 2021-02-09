@@ -11,7 +11,7 @@
 <!-- 수정 입력할 수 있는 폼 -->
 
 <form action="MemberModifyServlet" method="post">
-	이름 : <input type="text" name="name" size="10" value="${member.name }"/><br/>
+	이름 : <input type="text" name="name" size="10" value="${member.name }"/>${nameMsg }<br/>
 		전화번호 : 
 		<select name="phone1">
 		<option value="010">010</option>
@@ -22,7 +22,7 @@
 		-
 		<input type="text" name="phone2" size="4" value="${member.phone2 }">
 		-
-		<input type="text" name="phone3" size="4" value="${member.phone3 }">
+		<input type="text" name="phone3" size="4" value="${member.phone3 }">${phoneMsg }
 		<br/>
 		
 		주소 : <input type="text" name="address" size="20" value="${member.address }">

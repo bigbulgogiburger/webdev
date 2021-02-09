@@ -13,10 +13,17 @@
 <a href="LogoutServlet">로그아웃</a>
 <a href="ModifyServlet">정보수정</a>
 <a href="MemberInsertServlet">연락처추가</a><br/>
+<br/>
 <form action="SelectByMemberNameServlet">
-찾을 이름 :<input type="text" name="memberName" size="10" />
+<select name="category">
+<option value="name">이름</option>
+<option value="phonenumber">전화번호</option>
+<option value="address">주소</option>
+</select> <input type="text" name="value" size="10" />
 <input type="submit" value="찾기">
 </form>
+<br/>
+${resultMsg }
 <table border="1">
 	<tr>
 		<th>이름</th><th>연락처</th><th>주소</th><th>그룹</th><th>수정</th><th>삭제</th>
@@ -33,5 +40,9 @@
 	</c:forEach>
 
 </table>
+
+<form action="MainServlet">
+<input type="submit" value="전체목록으로">
+</form>
 </body>
 </html>

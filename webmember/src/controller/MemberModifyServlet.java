@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import myexception.ExceptionPrintList;
 import service.ServiceMember;
 import vo.MemberVO;
 
@@ -46,26 +47,64 @@ public class MemberModifyServlet extends HttpServlet {
 		int memberNum =(int)session.getAttribute("memberNum");
 		session.removeAttribute("memberNum");
 		
+		
+		
 		if(id == null) {
 			response.sendRedirect("MainServlet");
 		}else {
-		
-		request.setCharacterEncoding("utf-8");
-		MemberVO member = new MemberVO();
-		ServiceMember sMember = new ServiceMember();
-		
-		member.setName(request.getParameter("name"));
-		member.setPhone1(request.getParameter("phone1"));
-		member.setPhone2(request.getParameter("phone2"));
-		member.setPhone3(request.getParameter("phone3"));
-		member.setGroupnum(Integer.parseInt(request.getParameter("groupNum")));
-		System.out.println(Integer.parseInt(request.getParameter("groupNum")));
-		member.setAddress(request.getParameter("address"));
-		member.setMemberNum(memberNum);
-		sMember.updateMember(member);
-		
-		response.sendRedirect("MainServlet");
+			request.setCharacterEncoding("utf-8");
+			String name = request.getParameter("name");
+			String phone1 = request.getParameter("phone1");
+			String phone2 = request.getParameter("phone2");
+			String phone3 = request.getParameter("phone3");
+			String address = request.getParameter("address");
+			int groupnum= Integer.parseInt(request.getParameter("groupNum"));
+			
+			MemberVO member= new MemberVO(name,phone1,phone2,phone3,address,groupnum,id);
+			ExceptionPrintList exception = new ExceptionPrintList();
+			
+			
+			request.setAttribute("name", name);
+			if(name.equals("")) {
+				request.setAttribute("member", member);
+				request.setAttribute("nameMsg", "이름을 입력해주세요");
+				RequestDispatcher disp = request.getRequestDispatcher("insertForm.jsp");
+				disp.forward(request, response);
+			}else {
+				String phonenumber = phone1+phone2+phone3; 
+				if(exception.isAlreadyStored(phonenumber, member)) {
+					request.setAttribute("member", member);
+					request.setAttribute("phoneMsg", "이미 저장된 번호입니다.");
+					RequestDispatcher disp = request.getRequestDispatcher("insertForm.jsp");
+					disp.forward(request, response);
+				}else if(exception.isNotNumber(phonenumber)) {
+					request.setAttribute("member", member);
+					request.setAttribute("phoneMsg", "올바른 숫자를 입력해주세요");
+					RequestDispatcher disp = request.getRequestDispatcher("insertForm.jsp");
+					disp.forward(request, response);
+				}else if(exception.isNotCorrectNumber(phonenumber)) {
+					request.setAttribute("member", member);
+					request.setAttribute("phoneMsg", "11자리의 숫자를 입력해주세요");
+					RequestDispatcher disp = request.getRequestDispatcher("insertForm.jsp");
+					disp.forward(request, response);
+				}else {
+			
+					request.setCharacterEncoding("utf-8");
+					ServiceMember sMember = new ServiceMember();
+					
+					member.setName(request.getParameter("name"));
+					member.setPhone1(request.getParameter("phone1"));
+					member.setPhone2(request.getParameter("phone2"));
+					member.setPhone3(request.getParameter("phone3"));
+					member.setGroupnum(Integer.parseInt(request.getParameter("groupNum")));
+					System.out.println(Integer.parseInt(request.getParameter("groupNum")));
+					member.setAddress(request.getParameter("address"));
+					member.setMemberNum(memberNum);
+					sMember.updateMember(member);
+					
+					response.sendRedirect("MainServlet");
+				}
+			}
+		}
 	}
-}
-
 }
