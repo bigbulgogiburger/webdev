@@ -1,0 +1,48 @@
+@charset "UTF-8";
+
+h1{
+	text-align: center;
+	margin-top: 50px;
+	font-size: 80px;
+	font-weight: bold;
+	margin-bottom: 20px;
+	font-family: 'Hammersmith One', sans-serif;
+}
+h1 span:nth-child(1) {
+	color: #1a1a1a	
+}
+h1 span:nth-child(2) {
+	color: #32302b
+}
+h1 span:nth-child(3) {
+	color: #595347
+}
+h1 span:nth-child(4) {
+	color: #635d42 	
+}
+h1 span:nth-child(5) {
+	color: #8c8270
+}
+h1 span:nth-child(6) {
+	color: #a89d87
+}
+h1 span:nth-child(7) {
+	color: #c4b99b
+}
+h1 span:nth-child(8) {
+	color: #a89d87
+}
+h1 span:nth-child(9) {
+	color: #595347
+}
+h3{
+	text-align: center;
+	font-size: 50px;
+	font-weight: normal;
+	margin-bottom: 10;
+	font-family: 'Do Hyeon', sans-serif;
+}
+
+.search-table{
+	
+}

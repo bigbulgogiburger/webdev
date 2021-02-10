@@ -480,7 +480,7 @@ public class MemberDAO {
 		StringBuilder sql		= new StringBuilder();
 		
 		
-		sql.append(" 	  select membernum from contact	");
+		sql.append(" 	  select membernum from contact		");
 		sql.append(" 	  where phonenumber =?				");
 		
 		
@@ -504,6 +504,83 @@ public class MemberDAO {
 		}
 		return membernum;
 
+	}
+
+	public int findGroupNum(String id) {
+		Connection con 	= null;
+		PreparedStatement pstmt 	= null;
+		ResultSet rs 		= null;
+		int groupNum =0;
+		
+		StringBuilder sql		= new StringBuilder();
+		
+		
+		sql.append(" 	  select groupnum from contact		");
+		sql.append(" 	  where id =?						");
+		
+		
+		try {
+			Class.forName("oracle.jdbc.driver.OracleDriver");
+			con = accessManager.getConnection();
+			pstmt = con.prepareStatement(sql.toString());
+			pstmt.setString(1, id);
+			rs = pstmt.executeQuery();
+			
+			if(rs.next()) {
+				groupNum = rs.getInt("groupnum");
+			}
+			
+			
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+		finally {
+			accessManager.close(con,pstmt,rs);
+		}
+		return groupNum;
+	}
+
+	public ArrayList<MemberVO> selectAll() {
+ArrayList<MemberVO> memberList	= new ArrayList<MemberVO>();
+		
+		Connection con 	= accessManager.getConnection();
+		PreparedStatement pstmt 	= null;
+		ResultSet rs 		= null;
+		
+		StringBuilder sql		= new StringBuilder();
+		
+		
+		sql.append(" 	  select c.name, c.phonenumber,c.address,g.group_name, c.membernum	");
+		sql.append("      from contact c, group_info g										");
+		sql.append("      where c.groupnum = g.group_number									");
+		sql.append(" 	  and groupnum<5													");
+		
+		
+		try {
+			pstmt = con.prepareStatement(sql.toString());
+			rs = pstmt.executeQuery();
+			
+			while(rs.next()) {
+				MemberVO member = new MemberVO();
+				member.setName(rs.getString("name"));
+				String phoneNumber = rs.getString("phonenumber");
+				member.setPhone1(phoneNumber.substring(0, 3));
+				member.setPhone2(phoneNumber.substring(3, 7));
+				member.setPhone3(phoneNumber.substring(7));
+				member.setAddress(rs.getString("address"));
+				member.setGroupName(rs.getString("group_name"));
+				member.setMemberNum(Integer.parseInt(rs.getString("membernum")));
+				memberList.add(member);
+			}
+			
+			
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}
+		finally {
+			accessManager.close(con,pstmt,rs);
+		}
+		return memberList;
 	}
 	
 	

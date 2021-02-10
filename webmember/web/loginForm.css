@@ -1,0 +1,53 @@
+@charset "UTF-8";
+
+body{
+	background-image: url(/img/overlookbom.png);
+}
+.search-id {
+	width:500px;
+}
+.search-pw {
+	width:500px;
+}
+
+.submit{
+
+	text-align: center;
+	margin-top : 5px;
+}
+
+.joinus {
+
+	text-align: center;
+	margin-top : 5px;
+}
+
+h1{
+	text-align: center;
+	margin-top: 100px;
+	font-size: 100px;
+	font-weight: bold;
+	margin-bottom: 70px;
+	font-family: 'Hammersmith One', sans-serif;
+}
+h1 span:nth-child(1) {
+	color: #1a1a1a	
+}
+h1 span:nth-child(2) {
+	color: #32302b
+}
+h1 span:nth-child(3) {
+	color: #595347
+}
+h1 span:nth-child(4) {
+	color: #635d42 	
+}
+h1 span:nth-child(5) {
+	color: #8c8270
+}
+h1 span:nth-child(6) {
+	color: #a89d87
+}
+h1 span:nth-child(7) {
+	color: #c4b99b
+}

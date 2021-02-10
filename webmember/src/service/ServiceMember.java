@@ -77,5 +77,15 @@ public class ServiceMember {
 		int membernum = mDao.selectByPhoneNumber(phoneNumber);
 		return membernum;
 	}
+	public int findGroupNum(String id) {
+		MemberDAO mDao = new MemberDAO();
+		int groupNum = mDao.findGroupNum(id);
+		return groupNum;
+	}
+	public ArrayList<MemberVO> selectAll() {
+		MemberDAO memberDAO = new MemberDAO();
+		ArrayList<MemberVO> memlist = memberDAO.selectAll();
+		return memlist;
+	}
 
 }

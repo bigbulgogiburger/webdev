@@ -36,20 +36,33 @@ public class MainServlet extends HttpServlet {
 //				get방식으로 전달
 				response.sendRedirect("LoginServlet");
 			}else {
-				
-//				2. 정상 로그인 한 경우 처리
-				
-//				2.1 main.jsp에 전달할 데이터를 생성=>request에 담아야 한다.
-//				회원(MemberVO)목록(ArrayList)
 				ServiceMember serviceMember = new ServiceMember();
-				ArrayList<MemberVO> members = serviceMember.selectAll(id);
-//				request에 members를 담는다.
-				request.setAttribute("members", members);
-				
-				
-//				2.2 main.jsp로 포워딩
-				RequestDispatcher disp = request.getRequestDispatcher("main.jsp");
-				disp.forward(request, response);
+				int memberNum = serviceMember.findGroupNum(id);
+				if(memberNum==5) {
+					ArrayList<MemberVO> members = serviceMember.selectAll();
+//					request에 members를 담는다.
+					request.setAttribute("members", members);
+					
+					
+//					2.2 main.jsp로 포워딩
+					RequestDispatcher disp = request.getRequestDispatcher("main.jsp");
+					disp.forward(request, response);
+				}else {
+//					2. 정상 로그인 한 경우 처리
+					
+//					2.1 main.jsp에 전달할 데이터를 생성=>request에 담아야 한다.
+//					회원(MemberVO)목록(ArrayList)
+					
+					ArrayList<MemberVO> members = serviceMember.selectAll(id);
+//					request에 members를 담는다.
+					request.setAttribute("members", members);
+					
+					
+//					2.2 main.jsp로 포워딩
+					RequestDispatcher disp = request.getRequestDispatcher("main.jsp");
+					disp.forward(request, response);
+				}
+//				
 			}
 			
 

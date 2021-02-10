@@ -48,7 +48,8 @@ public class ExceptionPrintList {
 			if(member_num==-1) {
 			    return false;
 			 }
-			 
+			 System.out.println(member_num);
+			 System.out.println(member.getMemberNum());
 			 if(member_num!=member.getMemberNum()) {
 				 try {
 					throw new AlreadyStoredException();
