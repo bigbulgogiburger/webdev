@@ -24,21 +24,16 @@
 		<span>P</span><span>H</span><span>O</span><span>N</span><span>E</span><span>B</span><span>O</span><span>O</span><span>K</span>
 	</h1>
 	<h3>${name }님의 회원목록</h3>
-	<div class="membermenu">
-	<a href="LogoutServlet">로그아웃</a>
-	<a href="ModifyServlet">정보수정</a>
-	<a href="MemberInsertServlet">연락처추가</a>
-	<br />
-	<br />
-	</div>
+
 	
 	<form action="SelectByMemberNameServlet">
-		<select name="category">
+		<select class="form-select" aria-label="Default select example" name="category"  style="width:100px;height:35px;">
 			<option value="name">이름</option>
 			<option value="phonenumber">전화번호</option>
 			<option value="address">주소</option>
-		</select> <input type="text" name="value" size="10" /> <input type="submit"
-			value="찾기">
+		</select>
+		<input type="text" name="value" size="10"/> 
+		<input type="submit" value="찾기"/>
 	</form>
 	<br /> ${resultMsg }
 	<table class="table table-striped table-hover search-table">
@@ -56,16 +51,25 @@
 				<td>${member.phone1 }- ${member.phone2 } - ${member.phone3 }</td>
 				<td>${member.address }</td>
 				<td>${member.groupName }</td>
-				<td><a
-					href="MemberModifyServlet?memberNum=${member.memberNum }">수정</a></td>
-				<td><a href="DeleteServlet?memberNum=${member.memberNum }">삭제</a></td>
+				<td><a class="btn btn-outline-success"
+					  href="MemberModifyServlet?memberNum=${member.memberNum }">수정</a></td>
+				<td><a class="btn btn-outline-danger" href="DeleteServlet?memberNum=${member.memberNum }">삭제</a></td>
 			</tr>
 		</c:forEach>
 
 	</table>
+	<div>
+	<a href="MainServlet" class="btn btn-outline-primary form-inline">전체 목록</a>
 
-	<form action="MainServlet">
-		<input type="submit" value="전체목록으로">
-	</form>
+		<div class="membermenu">
+			<a href="LogoutServlet" class="btn btn-outline-success">로그아웃</a>&nbsp;&nbsp;&nbsp;
+			<a href="ModifyServlet" class="btn btn-outline-danger">정보수정</a>&nbsp;&nbsp;&nbsp;
+			<a href="MemberInsertServlet" class="btn btn-outline-warning">연락처추가</a>    
+	
+		</div>
+	</div>
+	
+
+
 </body>
 </html>

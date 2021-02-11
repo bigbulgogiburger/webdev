@@ -1,8 +1,6 @@
 @charset "UTF-8";
 
-body{
-	background-image: url(/img/overlookbom.png);
-}
+
 .search-id {
 	width:500px;
 }
@@ -15,6 +13,11 @@ body{
 	text-align: center;
 	margin-top : 5px;
 }
+body{
+	background:url("img/overlookbom.jpg") no-repeat;
+	background-position: center;
+	
+}
 
 .joinus {
 
@@ -24,10 +27,10 @@ body{
 
 h1{
 	text-align: center;
-	margin-top: 100px;
+	margin-top: 30px;
 	font-size: 100px;
 	font-weight: bold;
-	margin-bottom: 70px;
+	margin-bottom: 40px;
 	font-family: 'Hammersmith One', sans-serif;
 }
 h1 span:nth-child(1) {
@@ -50,4 +53,12 @@ h1 span:nth-child(6) {
 }
 h1 span:nth-child(7) {
 	color: #c4b99b
+}
+.bombook{
+	background-color: #ffffff; 
+	padding-bottom : 250px;
+	padding-top : 100px;
+	opacity: 0.7;
+	background-position: center;
+  
 }

@@ -1,5 +1,6 @@
 @charset "UTF-8";
 
+
 h1{
 	text-align: center;
 	margin-top: 50px;
@@ -43,6 +44,13 @@ h3{
 	font-family: 'Do Hyeon', sans-serif;
 }
 
-.search-table{
-	
+.membermenu{
+	text-align: right;
+	font-size: 20px;
+	font-weight: normal;
+	font-family: 'Do Hyeon', sans-serif;
+}
+.form-select {
+width:auto;
+display:inline-block;
 }

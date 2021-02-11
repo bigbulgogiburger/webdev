@@ -18,6 +18,7 @@
 	rel="stylesheet">
 </head>
 <body>
+	<div class="bombook">
 	<h1>
 		<span>B</span><span>O</span><span>M</span><span>B</span><span>O</span><span>O</span><span>K</span>
 	</h1>
@@ -45,7 +46,7 @@
 			<button type="submit" class="btn btn-secondary">JoinUs</button>
 		</div>
 	</form>
-
+</div>
 
 </body>
 </html>
