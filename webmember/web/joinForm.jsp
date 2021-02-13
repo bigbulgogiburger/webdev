@@ -23,7 +23,7 @@
 		<br/>
 		주소 : <input type="text" name="address" size="20" value="${member.address }"/>
 		<br/>
-		<input type="submit" value="추가"/> 
+		<input type="submit" value="추가" /> 
 	</form>
 
 </body>

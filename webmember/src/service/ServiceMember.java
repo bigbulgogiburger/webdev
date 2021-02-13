@@ -54,6 +54,7 @@ public class ServiceMember {
 	}
 	public MemberVO selectByMemberNum(int memberNum) {
 		MemberDAO mDao = new MemberDAO();
+		
 		MemberVO member = mDao.selectByMemberNum(memberNum);
 		return member;
 	}
