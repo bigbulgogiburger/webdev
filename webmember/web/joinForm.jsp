@@ -17,15 +17,23 @@
 	<link rel="preconnect" href="https://fonts.gstatic.com">
 <link href="https://fonts.googleapis.com/css2?family=Do+Hyeon&display=swap" rel="stylesheet">
 <title>회원가입</title>
+<script>
+function idDupl(idMsg){
+	if(idMsg !=null)
+	alert(idMsg);
+}
+	
+</script>
 </head>
 <body>
 	<form action="JoinServlet" method="post">
-	<div class="inputs mb-3 mx-auto">
-		이름 : <input type="text" class="form-control" width="100px" name="name" size="10" value="${join.name }"/>${nameMsg }<br/>
-		아이디 : <input type="text" class="form-control" name="id" size="10" value="${join.id }"/>${idMsg }<br/>
-		비밀번호 : <input type="password" class="form-control" name="pw" size="10"/>${pwMsg }<br/>
+	<div class="col-md-4">
+		이름 : <input type="text" class="form-control" width="100px" placeholder="이름을 입력해주세요" name="name" size="10" value="${join.name }"/>${nameMsg }<br/>
+		아이디 : <input type="text" class="form-control" name="id" placeholder="아이디를 입력해주세요" size="10" value="${join.id }"/><a href="IdCheckServlet" type="button">중복체크</a>${idMsg } <br/>
+		비밀번호 : <input type="password" class="form-control" placeholder="비밀번호를 입력해주세요" name="pw" size="10"/>${pwMsg }<br/>
 	</div>
-		연락처 : <select name="phone1">
+		연락처 :<br> 
+		<select name="phone1">
 		
 		<option value="010">010</option>
 		<option value="011">011</option>
@@ -36,7 +44,8 @@
 		-
 		<input type="text" name="phone3" size="4" value="${member.phone3 }"/>${phoneMsg }
 		<br/>
-		주소 : <input type="text" class="form-control" name="address" size="20"  value="${member.address }"/>
+		주소 : <br>
+		<input type="text" class="col-md-4" name="address" size="20" placeholder="주소를 입력해주세요" value="${member.address }"/>
 		<br/>
 		<input type="submit" value="추가" /> 
 	</form>

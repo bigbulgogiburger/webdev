@@ -10,11 +10,29 @@ public class MemberVO {
 	private int groupnum;   
 	private int memberNum;
 	private String groupName;
+	private String postcode;
+	private String detail_address;
 	
 	
 
 	
 	
+
+	public String getPostcode() {
+		return postcode;
+	}
+
+	public void setPostcode(String postcode) {
+		this.postcode = postcode;
+	}
+
+	public String getDetail_address() {
+		return detail_address;
+	}
+
+	public void setDetail_address(String detail_address) {
+		this.detail_address = detail_address;
+	}
 
 	public MemberVO(String name, String phone1, String phone2, String phone3, String address, int groupnum, String id) {
 		this.name= name;

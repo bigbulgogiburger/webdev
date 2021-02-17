@@ -23,7 +23,7 @@
 <!-- 수정 입력할 수 있는 폼 -->
 
 <form action="MemberModifyServlet" method="post">
-	이름 : <input type="text" name="name" size="10" value="${member.name }"/>${nameMsg }<br/>
+	이름 : <input type="text" name="name" size="10" placeholder="이름을 입력해주세요" value="${member.name }"/>${nameMsg }<br/>
 		전화번호 : 
 		<select name="phone1">
 		<option value="010">010</option>

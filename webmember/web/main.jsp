@@ -61,12 +61,12 @@
 	<div>
 	<a href="MainServlet" class="btn btn-outline-primary form-inline">전체 목록</a>
 
-		<div class="membermenu">
+		<span class="membermenu">
 			<a href="LogoutServlet" class="btn btn-outline-success">로그아웃</a>&nbsp;&nbsp;&nbsp;
 			<a href="ModifyServlet" class="btn btn-outline-danger">정보수정</a>&nbsp;&nbsp;&nbsp;
 			<a href="MemberInsertServlet" class="btn btn-outline-warning">연락처추가</a>    
 	
-		</div>
+		</span>
 	</div>
 	
 
