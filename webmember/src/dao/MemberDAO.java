@@ -66,7 +66,7 @@ public class MemberDAO {
 		int rowcnt =0;
 
 		query.append("	insert into contact			 		 ");
-		query.append("	values(numseq.nextval,?,?,?,?,?) ");
+		query.append("	values(numseq.nextval,?,?,?,?,?,?,?) ");
 		
 		try {
 			Class.forName("oracle.jdbc.driver.OracleDriver");
@@ -77,6 +77,8 @@ public class MemberDAO {
 			pstmt.setString(3, member.getAddress());
 			pstmt.setInt(4, member.getGroupnum());
 			pstmt.setString(5, member.getId());
+			pstmt.setString(6, member.getDetail_address());
+			pstmt.setString(7, member.getPostcode());
 			rowcnt= pstmt.executeUpdate();
 			
 		}catch(Exception e) {
@@ -157,7 +159,7 @@ public class MemberDAO {
 		ResultSet rs = null;
 
 		
-		query.append(" select name, phonenumber,address,id	");
+		query.append(" select name, phonenumber,address,id,detail_address,postcode	");
 		query.append(" from contact where id=? and groupnum= 4  	");
 		
 		try {
@@ -168,6 +170,8 @@ public class MemberDAO {
 			rs = pstmt.executeQuery();
 			
 			if(rs.next()) {
+				member.setDetail_address(rs.getString("detail_address"));
+				member.setPostcode(rs.getString("postcode"));
 				member.setName(rs.getString("name"));
 				String phoneNumber = rs.getString("phonenumber");
 				member.setPhone1(phoneNumber.substring(0, 3));
@@ -233,7 +237,7 @@ public class MemberDAO {
 		StringBuilder query		= new StringBuilder();
 		ResultSet rs = null;
 
-		query.append(" 	  select c.name, c.phonenumber,c.address,g.group_name, c.membernum			");
+		query.append(" 	  select c.name, c.phonenumber,c.address,g.group_name, c.membernum, c.detail_address, c.postcode			");
 		query.append("      from contact c, group_info g											");
 		query.append("      where c.groupnum = g.group_number										");
 		query.append("      and membernum=?															");
@@ -249,6 +253,8 @@ public class MemberDAO {
 			if(rs.next()) {
 				member.setName(rs.getString("name"));
 				String phoneNumber = rs.getString("phonenumber");
+				member.setDetail_address(rs.getString("detail_address"));
+				member.setPostcode(rs.getString("postcode"));
 				member.setPhone1(phoneNumber.substring(0, 3));
 				member.setPhone2(phoneNumber.substring(3, 7));
 				member.setPhone3(phoneNumber.substring(7));
@@ -276,12 +282,14 @@ public class MemberDAO {
 		String user 	= "ora_user";
 		String password = "hong";
 		
-		query.append(" update contact 			");
-		query.append("    set name = ?			");
+		query.append(" update contact 					");
+		query.append("    set name = ?					");
 		query.append("   	 ,phonenumber = ?			");
-		query.append("       ,address = ?		");
-		query.append("       ,groupnum = ?		");
-		query.append("  where membernum = ?  	");
+		query.append("       ,address = ?				");
+		query.append("       ,groupnum = ?				");
+		query.append("       ,detail_address = ?		");
+		query.append("       ,postcode = ?				");
+		query.append("  where membernum = ?  			");
 		try {
 			Class.forName("oracle.jdbc.driver.OracleDriver");
 			con = DriverManager.getConnection(url,user,password);
@@ -290,7 +298,9 @@ public class MemberDAO {
 			pstmt.setString(2, member.getPhone1()+member.getPhone2()+member.getPhone3());
 			pstmt.setString(3, member.getAddress());
 			pstmt.setInt(4, member.getGroupnum());
-			pstmt.setInt(5, member.getMemberNum());
+			pstmt.setString(5, member.getDetail_address());
+			pstmt.setString(6, member.getPostcode());
+			pstmt.setInt(7, member.getMemberNum());
 			pstmt.executeUpdate();
 			
 		}catch(Exception e) {
@@ -550,7 +560,7 @@ ArrayList<MemberVO> memberList	= new ArrayList<MemberVO>();
 		StringBuilder sql		= new StringBuilder();
 		
 		
-		sql.append(" 	  select c.name, c.phonenumber,c.address,g.group_name, c.membernum	");
+		sql.append(" 	  select c.name, c.phonenumber,c.address,g.group_name, c.membernum  ");
 		sql.append("      from contact c, group_info g										");
 		sql.append("      where c.groupnum = g.group_number									");
 		sql.append(" 	  and groupnum<5													");

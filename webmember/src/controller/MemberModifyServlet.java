@@ -58,9 +58,13 @@ public class MemberModifyServlet extends HttpServlet {
 			String phone2 = request.getParameter("phone2");
 			String phone3 = request.getParameter("phone3");
 			String address = request.getParameter("address");
+			String detail_address = request.getParameter("detail_address");
+			String postcode = request.getParameter("postcode");
 			int groupnum= Integer.parseInt(request.getParameter("groupNum"));
 			
-			MemberVO member= new MemberVO(name,phone1,phone2,phone3,address,groupnum,id);
+			
+			MemberVO member= new MemberVO(name,phone1,phone2,phone3,address,groupnum,id,detail_address,postcode);
+			member.setMemberNum(memberNum);
 			ExceptionPrintList exception = new ExceptionPrintList();
 			
 			
@@ -68,24 +72,24 @@ public class MemberModifyServlet extends HttpServlet {
 			if(name.equals("")) {
 				request.setAttribute("member", member);
 				request.setAttribute("nameMsg", "이름을 입력해주세요");
-				RequestDispatcher disp = request.getRequestDispatcher("insertForm.jsp");
+				RequestDispatcher disp = request.getRequestDispatcher("memberModifyForm.jsp");
 				disp.forward(request, response);
 			}else {
 				String phonenumber = phone1+phone2+phone3; 
 				if(exception.isAlreadyStored(phonenumber, member)) {
 					request.setAttribute("member", member);
 					request.setAttribute("phoneMsg", "이미 저장된 번호입니다.");
-					RequestDispatcher disp = request.getRequestDispatcher("insertForm.jsp");
+					RequestDispatcher disp = request.getRequestDispatcher("memberModifyForm.jsp");
 					disp.forward(request, response);
 				}else if(exception.isNotNumber(phonenumber)) {
 					request.setAttribute("member", member);
 					request.setAttribute("phoneMsg", "올바른 숫자를 입력해주세요");
-					RequestDispatcher disp = request.getRequestDispatcher("insertForm.jsp");
+					RequestDispatcher disp = request.getRequestDispatcher("memberModifyForm.jsp");
 					disp.forward(request, response);
 				}else if(exception.isNotCorrectNumber(phonenumber)) {
 					request.setAttribute("member", member);
 					request.setAttribute("phoneMsg", "11자리의 숫자를 입력해주세요");
-					RequestDispatcher disp = request.getRequestDispatcher("insertForm.jsp");
+					RequestDispatcher disp = request.getRequestDispatcher("memberModify.jsp");
 					disp.forward(request, response);
 				}else {
 			
@@ -97,6 +101,8 @@ public class MemberModifyServlet extends HttpServlet {
 					member.setPhone2(request.getParameter("phone2"));
 					member.setPhone3(request.getParameter("phone3"));
 					member.setGroupnum(Integer.parseInt(request.getParameter("groupNum")));
+					member.setDetail_address(request.getParameter("detail_address"));
+					member.setPostcode(request.getParameter("postcode"));
 					System.out.println(Integer.parseInt(request.getParameter("groupNum")));
 					member.setAddress(request.getParameter("address"));
 					member.setMemberNum(memberNum);

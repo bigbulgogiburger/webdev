@@ -48,9 +48,11 @@ public class JoinServlet extends HttpServlet {
 		String phone2 = request.getParameter("phone2");
 		String phone3 = request.getParameter("phone3");
 		String address = request.getParameter("address");
+		String detail_address = request.getParameter("detail_address");
+		String postcode = request.getParameter("postcode");
 		int groupnum= 4;
 		JoinVO join = new JoinVO(id,pw,name);
-		MemberVO member= new MemberVO(name,phone1,phone2,phone3,address,groupnum,id);
+		MemberVO member= new MemberVO(name,phone1,phone2,phone3,address,groupnum,id,detail_address,postcode);
 		ExceptionPrintList exception = new ExceptionPrintList();
 		if(name.equals("")) {
 			request.setAttribute("member", member);
@@ -109,6 +111,7 @@ public class JoinServlet extends HttpServlet {
 				
 				
 				if(rowcnt1+rowcnt2==2) {
+				request.setAttribute("name", name);
 				RequestDispatcher disp = request.getRequestDispatcher("joinOK.jsp");
 				disp.forward(request, response);
 				

@@ -52,9 +52,11 @@ public class MemberInsertServlet extends HttpServlet {
 		String phone2 = request.getParameter("phone2");
 		String phone3 = request.getParameter("phone3");
 		String address = request.getParameter("address");
+		String detail_address = request.getParameter("detail_address");
+		String postcode = request.getParameter("postcode");
 		int groupnum= Integer.parseInt(request.getParameter("groupnum"));
 		
-		MemberVO member= new MemberVO(name,phone1,phone2,phone3,address,groupnum,id);
+		MemberVO member= new MemberVO(name,phone1,phone2,phone3,address,groupnum,id,detail_address,postcode);
 		ExceptionPrintList exception = new ExceptionPrintList();
 		
 		
@@ -84,7 +86,7 @@ public class MemberInsertServlet extends HttpServlet {
 			}else {
 		
 		
-		int rowcnt1 = service.insertMember(new MemberVO(name,phone1,phone2,phone3,address,groupnum,id));
+		int rowcnt1 = service.insertMember(new MemberVO(name,phone1,phone2,phone3,address,groupnum,id,detail_address,postcode));
 		System.out.println(rowcnt1);
 						
 		if(rowcnt1==1) {

@@ -1,5 +1,6 @@
 package controller;
 
+
 import java.io.IOException;
 
 import javax.servlet.RequestDispatcher;
@@ -55,6 +56,8 @@ public class ModifyServlet extends HttpServlet {
 		String phone2 = request.getParameter("phone2");
 		String phone3 = request.getParameter("phone3");
 		String address = request.getParameter("address");
+		String detail_address = request.getParameter("detail_address");
+		String postcode = request.getParameter("postcode");
 		int groupNum = 4;
 		
 //		비밀번호 확인
@@ -67,6 +70,7 @@ public class ModifyServlet extends HttpServlet {
 			ServiceMember mService= new ServiceMember();
 //			id : session에서 가져옴 pw : 사용자가 입력한비밀번호.
 			int memberNum = mService.selectByIdPw(id,pw);
+			System.out.println(memberNum);
 			if(memberNum !=0) {
 //				비밀번호가 정상적으로 입력된 경우=>정상적으로 수정(update).
 				MemberVO mem = new MemberVO();
@@ -79,6 +83,8 @@ public class ModifyServlet extends HttpServlet {
 				mem.setAddress(address);
 				mem.setGroupnum(groupNum);
 				mem.setMemberNum(memberNum);
+				mem.setPostcode(postcode);
+				mem.setDetail_address(detail_address);
 				join.setId(id);
 				join.setPw(pw);
 				join.setName(name);

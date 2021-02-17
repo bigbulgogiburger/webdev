@@ -34,7 +34,7 @@ public class MemberVO {
 		this.detail_address = detail_address;
 	}
 
-	public MemberVO(String name, String phone1, String phone2, String phone3, String address, int groupnum, String id) {
+	public MemberVO(String name, String phone1, String phone2, String phone3, String address, int groupnum, String id, String detail_address, String postcode) {
 		this.name= name;
 		this.phone1=phone1;
 		this.phone2=phone2;
@@ -42,6 +42,8 @@ public class MemberVO {
 		this.address = address;
 		this.groupnum = groupnum;
 		this.id= id;
+		this.detail_address=detail_address;
+		this.postcode=postcode;
 	}
 	
 	public MemberVO() {
