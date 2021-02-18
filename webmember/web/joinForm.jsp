@@ -128,7 +128,7 @@
 		<br>
 		<br>
 		<br>
-		<input type="submit" value="추가" /> 
+		<input type="submit" value="회원추가" /> 
 		</div>
 	</form>
 
