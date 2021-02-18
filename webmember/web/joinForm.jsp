@@ -67,37 +67,69 @@
         }).open();
     }
 </script>
+<script
+     src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js";>
+     </script>
+
 
 </head>
 <body>
+<script type="text/javascript">
+     function idCheck(){
+          //jQuery에서 선택자역할
+          var idStr = $("#id").val();
+          
+          $.ajax({
+        	  async : false,
+              url : "IdCheckServlet?id="+idStr,
+              success : function(data){
+            	  
+                   if(data == "success"){
+                        $("#result").text("사용가능한 아이디입니다.");
+                   }else if(data == "fail"){
+                        $("#result").text("중복된 아이디입니다.");
+                   }
+              }
+          });
+     }
+</script>
+
+
+
 	<form action="JoinServlet" method="post">
-	<div class="col-md-4">
+	<div class="mb-3 search-id mx-auto ">
 		이름 : <input type="text" class="form-control" width="100px" placeholder="이름을 입력해주세요" name="name" size="10" value="${join.name }"/>${nameMsg }<br/>
-		아이디 : <input type="text" class="form-control" name="id" placeholder="아이디를 입력해주세요" size="10" value="${join.id }"/>${idMsg } <br/>
+		아이디 : <input type="text" class="form-control" id="id" name="id" placeholder="아이디를 입력해주세요" size="10" value="${join.id }"/>
+		<button type="button" name="id" placeholder="아이디를 입력해주세요" size="10" onclick="idCheck()">중복확인</button>
+		<br>${idMsg }
+		<span id="result"></span><br>
 		비밀번호 : <input type="password" class="form-control" placeholder="비밀번호를 입력해주세요" name="pw" size="10"/>${pwMsg }<br/>
-	</div>
-		연락처 :<br> 
-		<select name="phone1">
+		연락처 :<br> `
+		<select  name="phone1">
 		
-		<option value="010">010</option>
-		<option value="011">011</option>
-		<option value="017">017</option>
+		<option class="cod-md-12" value="010">010</option>
+		<option class="cod-md-12" value="011">011</option>
+		<option class="cod-md-12" value="017">017</option>
 		</select>
 		-
 		<input type="text" name="phone2" size="4"  value="${member.phone2 }"/>
 		-
 		<input type="text" name="phone3" size="4" value="${member.phone3 }"/>${phoneMsg }
 		<br/>
-		
+		<br>
+		<br>
 		<input type="text" id="sample6_postcode" name="postcode" placeholder="우편번호" value="${member.postcode }">
 		<input type="button" onclick="sample6_execDaumPostcode()" value="우편번호 찾기"><br>
-		<input type="text" id="sample6_address" name="address" placeholder="주소" value="${member.address }"><br>
-		<input type="text" id="sample6_detailAddress" name="detail_address" placeholder="상세주소" value="${member.detail_address }">
+		<br><input type="text" id="sample6_address" name="address" placeholder="주소" value="${member.address }"><br>
+		<br><input type="text" id="sample6_detailAddress" name="detail_address" placeholder="상세주소" value="${member.detail_address }">
 		<input type="text" id="sample6_extraAddress" placeholder="참고항목">
 
 		
 		<br>
+		<br>
+		<br>
 		<input type="submit" value="추가" /> 
+		</div>
 	</form>
 
 </body>

@@ -52,21 +52,28 @@ public class JoinServlet extends HttpServlet {
 		String postcode = request.getParameter("postcode");
 		int groupnum= 4;
 		JoinVO join = new JoinVO(id,pw,name);
+		
 		MemberVO member= new MemberVO(name,phone1,phone2,phone3,address,groupnum,id,detail_address,postcode);
+		
 		ExceptionPrintList exception = new ExceptionPrintList();
+		
 		if(name.equals("")) {
 			request.setAttribute("member", member);
 			request.setAttribute("join", join);
 			request.setAttribute("nameMsg", "이름을 입력하지 않으셨습니다.");
 			RequestDispatcher disp = request.getRequestDispatcher("joinForm.jsp");
 			disp.forward(request, response);
+			
 		}else if(id.equals("")) {
+			
 			request.setAttribute("member", member);
 			request.setAttribute("join", join);
 			request.setAttribute("idMsg", "아이디를 입력하지 않으셨습니다.");
 			RequestDispatcher disp = request.getRequestDispatcher("joinForm.jsp");
 			disp.forward(request, response);
+			
 		}else if(pw.equals("")){
+			
 			request.setAttribute("member", member);
 			request.setAttribute("join", join);
 			request.setAttribute("pwMsg", "패스워드를 입력하지 않으셨습니다.");
@@ -77,11 +84,13 @@ public class JoinServlet extends HttpServlet {
 //		true이면 중복 false면 중복아님
 		
 		if(service.idChecker(id)) {
+			
 			request.setAttribute("member", member);
 			request.setAttribute("join", join);
 			request.setAttribute("idMsg", "중복된 아이디입니다.");
 			RequestDispatcher disp = request.getRequestDispatcher("joinForm.jsp");
 			disp.forward(request, response);
+			
 		}else {
 //			핸드폰 번호 validation 1. 11자리인지, 2. 숫자인지  3. 올바른 번호인지.
 			String phonenumber = phone1+phone2+phone3; 

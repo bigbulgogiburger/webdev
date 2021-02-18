@@ -45,7 +45,7 @@ public class MemberModifyServlet extends HttpServlet {
 
 		String id = (String)session.getAttribute("id");
 		int memberNum =(int)session.getAttribute("memberNum");
-		session.removeAttribute("memberNum");
+		
 		
 		
 		
@@ -107,7 +107,7 @@ public class MemberModifyServlet extends HttpServlet {
 					member.setAddress(request.getParameter("address"));
 					member.setMemberNum(memberNum);
 					sMember.updateMember(member);
-					
+					session.removeAttribute("memberNum");
 					response.sendRedirect("MainServlet");
 				}
 			}

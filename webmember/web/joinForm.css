@@ -1,5 +1,10 @@
 @charset "UTF-8";
 
-.inputs{
-	width:20%;
+.search-id {
+	width:500px;
+}
+body{
+	background-image: url("/img/bombom.jpg");
+	background-repeat: no-repeat;
+	background-position: center;
 }
