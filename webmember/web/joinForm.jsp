@@ -98,7 +98,8 @@
 
 	<form action="JoinServlet" method="post">
 	<div class="mb-3 search-id mx-auto ">
-		이름 : <input type="text" class="form-control" width="100px" placeholder="이름을 입력해주세요" name="name" size="10" value="${join.name }"/>${nameMsg }<br/>
+		<div class="name">이름 : <input type="text" class="form-control" width="100px" placeholder="이름을 입력해주세요" name="name" size="10" value="${join.name }"/>${nameMsg }<br/>
+		</div>
 		아이디 : <input type="text" class="form-control" id="id" name="id" placeholder="아이디를 입력해주세요" size="10" value="${join.id }"/>
 		<button type="button" name="id" placeholder="아이디를 입력해주세요" size="10" onclick="idCheck()">중복확인</button>
 		<br>${idMsg }
