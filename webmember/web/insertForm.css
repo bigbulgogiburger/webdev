@@ -14,10 +14,10 @@
 }
 
 body{
-	background-image: url("img/winterbom.jpg");
+	background-image: url("img/smilebom.jpg");
 	background-repeat: no-repeat;
 	background-position: center;
-	background-size: contain;
+	background-size: cover;
 	float: right;
 	
 	font-size: 16px;

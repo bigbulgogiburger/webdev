@@ -74,7 +74,10 @@
 <!-- 수정 입력할 수 있는 폼 -->
 
 <form action="MemberModifyServlet" method="post">
-	이름 : <input type="text" name="name" size="10" placeholder="이름을 입력해주세요" value="${member.name }"/>${nameMsg }<br/>
+<div class="search-id">
+	<div class="name">이름 : <input type="text" name="name" size="10" placeholder="이름을 입력해주세요" value="${member.name }"/>${nameMsg }<br/>
+		</div>
+		<div class="phonenumber">
 		전화번호 : 
 		<select name="phone1">
 		<option value="010">010</option>
@@ -82,26 +85,39 @@
 		<option value="016">016</option>
 		<option value="017">017</option>
 		</select>
+		
 		-
 		<input type="text" name="phone2" size="4" value="${member.phone2 }">
 		-
 		<input type="text" name="phone3" size="4" value="${member.phone3 }">${phoneMsg }
+		</div>
 		<br/>
-		
+		<div class="address">
 		<input type="text" id="sample6_postcode" name="postcode" placeholder="우편번호" value="${member.postcode }">
 		<input type="button" onclick="sample6_execDaumPostcode()" value="우편번호 찾기"><br>
+		<div class="add1">
 		<input type="text" id="sample6_address" name="address" placeholder="주소" value="${member.address }"><br>
+		</div>
+		<div class="add2">
 		<input type="text" id="sample6_detailAddress" name="detail_address" placeholder="상세주소" value="${member.detail_address }">
+		</div>
+		<div class="add3">
 		<input type="text" id="sample6_extraAddress" placeholder="참고항목">
-		
+		</div>
+		</div>
 		<br/>
+		<div class="group">
 		그룹 : <select name="groupNum">
 		<option value="1">가족</option>
 		<option value="2">친구</option>
 		<option value="3">기타</option>
 		</select>
+		</div>
 		<br/>
+		<div class="btn1">
 		<input type="submit" value="수정하기"/>
+		</div>
+		</div>
 </form>
 </body>
 </html>

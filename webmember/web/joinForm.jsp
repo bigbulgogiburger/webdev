@@ -98,14 +98,16 @@
 
 	<form action="JoinServlet" method="post">
 	<div class="mb-3 search-id mx-auto ">
-		<div class="name">이름 : <input type="text" class="form-control" width="100px" placeholder="이름을 입력해주세요" name="name" size="10" value="${join.name }"/>${nameMsg }<br/>
-		</div>
+		<div class="name">
+		이름 : <input type="text" class="form-control" width="100px" placeholder="이름을 입력해주세요" name="name" size="10" value="${join.name }"/>${nameMsg }<br/>
+		
 		아이디 : <input type="text" class="form-control" id="id" name="id" placeholder="아이디를 입력해주세요" size="10" value="${join.id }"/>
 		<button type="button" name="id" placeholder="아이디를 입력해주세요" size="10" onclick="idCheck()">중복확인</button>
 		<br>${idMsg }
 		<span id="result"></span><br>
 		비밀번호 : <input type="password" class="form-control" placeholder="비밀번호를 입력해주세요" name="pw" size="10"/>${pwMsg }<br/>
-		연락처 :<br> `
+		
+		연락처 :<br>
 		<select  name="phone1">
 		
 		<option class="cod-md-12" value="010">010</option>
@@ -124,12 +126,12 @@
 		<br><input type="text" id="sample6_address" name="address" placeholder="주소" value="${member.address }"><br>
 		<br><input type="text" id="sample6_detailAddress" name="detail_address" placeholder="상세주소" value="${member.detail_address }">
 		<input type="text" id="sample6_extraAddress" placeholder="참고항목">
-
+		</div>
 		
 		<br>
 		<br>
 		<br>
-		<input type="submit" value="회원추가" /> 
+		<input type="submit" value="회원가입" /> 
 		</div>
 	</form>
 
